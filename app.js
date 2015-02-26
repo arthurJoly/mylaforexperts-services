@@ -1,69 +1,51 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-// Database
-var mongo = require('mongoskin');
-var db = mongo.db("mongodb://localhost:27017/mylaforexperts-services", {native_parser:true})
+/**
+* Global variables
+*/
+global.__base = __dirname + '/'
+bunyan = require('bunyan');
+log = bunyan.createLogger({
+	name: 'Webservices-test',
+	streams: [
+	{
+		stream: process.stdout ,
+		level: 'trace'
+	}
+	]
+});
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+/**
+* npm modules
+*/
+var express = require('express');
+var bodyParser = require('body-parser')
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+/**
+* Export variables
+*/
+module.exports.app = app
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+/**
+* Express configuration
+*/
+app.set('port', (process.env.PORT || 5000))
+app.use(express.static(__dirname + '/public'))
+	.use(bodyParser.json())
+	.use(cookieParser())
+	.use(session({
+		secret: 'keyboard cat',
+		resave: false,
+		saveUninitialized: true
+	}));
+	
+app.listen(app.get('port'), function() {
+console.log("Node app is running at localhost:" + app.get('port'))
+})
 
-// Make our db accessible to our router
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
-
-app.use('/', routes);
-app.use('/users', users);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
-
-module.exports = app;
+/**
+* Local modules
+*/
+var route = require('./services/route/routes.js')
