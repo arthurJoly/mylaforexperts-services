@@ -9,7 +9,9 @@ module.exports.questionOverview = function(request,response) {
 }
 
 module.exports.createQuestion = function(request,response) {
-	var question = Question.build({text: request.body.text})
+	var question = new Question({
+		text : request.body.text
+	});
 
 	question.save(function(err) {
 		if (err)
