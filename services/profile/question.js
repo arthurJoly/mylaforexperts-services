@@ -4,7 +4,7 @@ var utils = require(__base + 'services/utils/utils.js')
 
 module.exports.questionOverview = function(request,response) {
 	 Question.find(function(err, questions){
-		utils.httpResponse(response,200,'users successfully found',questions)
+		utils.httpResponse(response,200,'qeustions successfully found',questions)
 	});
 }
 
@@ -13,10 +13,6 @@ module.exports.createQuestion = function(request,response) {
 		text : request.body.text
 	}
 
-	question.save(function (err) {
-				if (err)
-					utils.httpResponse(response,500,err)
-				else
-					utils.httpResponse(response,200,'Question successfully created')
-	});
+	question.save() 
+	utils.httpResponse(response,200,'Question successfully created')
 }
