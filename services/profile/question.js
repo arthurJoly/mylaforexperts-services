@@ -13,6 +13,10 @@ module.exports.createQuestion = function(request,response) {
 		text : request.body.text
 	}
 
-	question.save() 
-	utils.httpResponse(response,200,'Question successfully created')
+	question.save(function(err) {
+		if (err)
+			utils.httpResponse(response,500,err)
+		else
+			utils.httpResponse(response,200,'Question successfully created')
+	});
 }
