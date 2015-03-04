@@ -10,7 +10,7 @@ module.exports.questionOverview = function(request,response) {
 
 module.exports.createQuestion = function(request,response) {
 	var question = new Question({
-		text : request.body.text
+		text : request.body.text,
 		date : request.body.date
 	});
 
