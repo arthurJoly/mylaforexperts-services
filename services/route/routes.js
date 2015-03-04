@@ -36,3 +36,10 @@ app.post('/question/create', function(request, response) {
 app.get('/question/overview', function(request, response) {
 	question.questionOverview(request,response);
 })
+
+/**
+* Get specific question
+*/
+app.get('/question/specific', function(request, response) {
+	question.specificQuestion(request,response);
+})

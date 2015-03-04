@@ -21,3 +21,12 @@ module.exports.createQuestion = function(request,response) {
 			utils.httpResponse(response,200,'Question successfully created')
 	});
 }
+
+module.exports.specificQuestion = function(request,response) {
+	Hike.findById(mongoose.Types.ObjectId(request.query.questionId), function(err, obj) {
+	if (obj)
+		utils.httpResponse(response,200,'Hike successfully found',obj)
+	else
+		utils.httpResponse(response,500,'Hike not found')
+	});
+}
