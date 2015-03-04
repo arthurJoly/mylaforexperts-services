@@ -4,13 +4,14 @@ var utils = require(__base + 'services/utils/utils.js')
 
 module.exports.questionOverview = function(request,response) {
 	 Question.find(function(err, questions){
-		utils.httpResponse(response,200,'qeustions successfully found',questions)
+		utils.httpResponse(response,200,'Questions successfully found',questions)
 	});
 }
 
 module.exports.createQuestion = function(request,response) {
 	var question = new Question({
 		text : request.body.text
+		date : request.body.date
 	});
 
 	question.save(function(err) {

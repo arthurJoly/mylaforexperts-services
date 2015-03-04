@@ -8,7 +8,8 @@ var userSchema = mongoose.Schema({
 })
 
 var questionSchema = mongoose.Schema({
-	text : String
+	text : String,
+	date : String
 })
 
 
