@@ -1,6 +1,7 @@
 var Question = require(__base + 'services/database/model.js').Question
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')
+var mongoose = require(__base + 'services/database/database.js').mongoose
 
 module.exports.questionOverview = function(request,response) {
 	 Question.find(function(err, questions){
