@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
 var questionSchema = mongoose.Schema({
 	text : String,
 	date : String,
-	sample : sampleSchema
+	sample : Number
 })
 
 var sampleSchema : mongoose.Schema({

@@ -7,7 +7,7 @@ module.exports.createQuestion = function(request,response) {
 	var question = new Question({
 		text : request.body.text,
 		date : request.body.date,
-		sample : { specimenType : 0}
+		sample : 0
 	});
 
 	question.save(function(err) {
