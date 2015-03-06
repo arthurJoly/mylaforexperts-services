@@ -13,9 +13,6 @@ var questionSchema = mongoose.Schema({
 	sample : Number
 })
 
-var sampleSchema : mongoose.Schema({
-	specimenType : Number
-})
 
 
 /**
