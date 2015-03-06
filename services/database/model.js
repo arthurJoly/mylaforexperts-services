@@ -9,7 +9,12 @@ var userSchema = mongoose.Schema({
 
 var questionSchema = mongoose.Schema({
 	text : String,
-	date : String
+	date : String,
+	sample : sampleSchema
+})
+
+var sampleSchema : mongoose.Schema({
+	specimenType : Number
 })
 
 
@@ -18,4 +23,5 @@ var questionSchema = mongoose.Schema({
 */
 module.exports.User = mongoose.model('User', userSchema)
 module.exports.Question = mongoose.model('Question', questionSchema)
+module.exports.Sample = mongoose.model('Sample', sampleSchema)
 

@@ -31,7 +31,7 @@ function httpResponse(response,code,description,content) {
 	if(content === undefined)
 		response.write(JSON.stringify({description : description}))
 	else
-		response.write(JSON.stringify({description : description,content : content}))
+		response.write(JSON.stringify({description : description, content : content}))
 		
 	response.end()
 }
