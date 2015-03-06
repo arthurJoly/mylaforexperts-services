@@ -1,21 +1,35 @@
 var Question = require(__base + 'services/database/model.js').Question
+var Sample = require(__base + 'services/database/model.js').Sample
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 module.exports.createQuestion = function(request,response) {
-	var question = new Question({
-		text : request.body.text,
-		date : request.body.date,
-		sample : 0
-	});
+	//create sample here for test
+	var sample = new Sample({
+		specimenType : 0
+	})
+	
+	sample.save(function(err) {
+		if (!err){
+			Sample.find({}, function(err, samples){
+				var question = new Question({
+					text : request.body.text,
+					date : request.body.date,
+					sample : samples[samples.length-1]._id
+				});
 
-	question.save(function(err) {
-		if (err)
-			utils.httpResponse(response,500,err)
-		else
-			utils.httpResponse(response,200,'Question successfully created')
+				question.save(function(err) {
+					if (err)
+						utils.httpResponse(response,500,err)
+					else
+						utils.httpResponse(response,200,'Question successfully created')
+				});
+			});
+			
+		} 		
 	});
+	
 }
 
 module.exports.questionOverview = function(request,response) {
