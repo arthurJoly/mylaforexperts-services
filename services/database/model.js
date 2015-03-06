@@ -20,5 +20,3 @@ var questionSchema = mongoose.Schema({
 */
 module.exports.User = mongoose.model('User', userSchema)
 module.exports.Question = mongoose.model('Question', questionSchema)
-module.exports.Sample = mongoose.model('Sample', sampleSchema)
-
