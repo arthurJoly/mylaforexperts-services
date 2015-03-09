@@ -12,8 +12,8 @@ module.exports.createPetriDishSample = function(request,response) {
 			utils.httpResponse(response,500,err)
 		}else{
 			var petriDishSample = new PetriDishSample({
-				specimenType : request.body.specimenType,
-				isolates : [isolateList[0]._id,isolateList[isolateList.length-1]._id]
+				specimenType : request.body.specimenType//,
+				//isolates : [isolateList[0]._id,isolateList[isolateList.length-1]._id]
 			});
 
 			petriDishSample.save(function(err) {
