@@ -22,7 +22,7 @@ var questionSchema = mongoose.Schema({
 //---------------------
 var sampleSchema = mongoose.Schema({
 	specimenType : Number
-})
+}, { collection : 'samples', discriminatorKey : '_type' })
 
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = sampleSchema.extend({
