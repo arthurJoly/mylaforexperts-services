@@ -1,5 +1,5 @@
 var mongoose = require(__base + 'services/database/database.js').mongoose;
-var extend = require('mongoose-schema-extend');
+var util = require('util');
 
 /**
 * MongoDB schema
@@ -20,12 +20,20 @@ var questionSchema = mongoose.Schema({
 
 //------ SAMPLE -------
 //---------------------
-var sampleSchema = mongoose.Schema({
-	specimenType : Number
-}, { collection : 'samples'});
+function AbstractSampleSchema(){
+	mongoose.Schema.apply(this, arguments);
+	
+	this.add({
+		specimenType : Number
+	});
+};
 
+util.inherits(AbstractSampleSchema, mongoose.Schema);
+
+var sampleSchema = new AbstractSampleSchema(); 
+	                                                  
 //- PETRI DISH SAMPLE -
-var petriDishSampleSchema = sampleSchema.extend({
+var petriDishSampleSchema = new AbstractSampleSchema({
 	test : String
 	/*isolates : [{
 		type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'
@@ -47,8 +55,10 @@ var isolateSchema = mongoose.Schema({
 /**
 * Mongo model
 */
-module.exports.User = mongoose.model('User', userSchema)
-module.exports.Question = mongoose.model('Question', questionSchema)
-module.exports.Sample = mongoose.model('Sample', sampleSchema)
-module.exports.PetriDishSample = mongoose.model('PetriDishSample', petriDishSampleSchema)
-module.exports.Isolate = mongoose.model('Isolate', isolateSchema)
+
+module.exports.User = mongoose.model('User', userSchema);
+module.exports.Question = mongoose.model('Question', questionSchema);
+module.exports.Sample =mongoose.model('Sample', sampleSchema);
+var Sample = mongoose.model('Sample', sampleSchema);
+module.exports.PetriDishSample = Sample.discriminator('PetriDishSample', petriDishSampleSchema);
+module.exports.Isolate = mongoose.model('Isolate', isolateSchema);

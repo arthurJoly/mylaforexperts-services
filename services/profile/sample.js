@@ -7,7 +7,7 @@ var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
 module.exports.createPetriDishSample = function(request,response) {
-	Isolate.find({}, function(err, isolateList){
+	//Isolate.find({}, function(err, isolateList){
 		var petriDishSample = new PetriDishSample({
 			specimenType : request.body.specimenType,
 			test : "hello"//,
@@ -21,7 +21,7 @@ module.exports.createPetriDishSample = function(request,response) {
 				utils.httpResponse(response,200,'Sample successfully created')
 		});
 				
-	});
+	//});
 }
 
 module.exports.specificPetriDishSample = function(request,response) {
