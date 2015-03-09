@@ -26,9 +26,9 @@ var sampleSchema = mongoose.Schema({
 
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = sampleSchema.extend({
-	/*isolates : [{
+	isolates : [{
 		type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'
-	}]*/
+	}]
 })
 
 //----- ISOLATE ------
