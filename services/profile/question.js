@@ -31,12 +31,6 @@ module.exports.questionOverview = function(request,response) {
 }
 
 module.exports.specificQuestion = function(request,response) {
-	/*Question.findById(mongoose.Types.ObjectId(request.query.questionId), function(err, obj) {
-	if (obj)
-		utils.httpResponse(response,200,'Question successfully found',obj)
-	else
-		utils.httpResponse(response,500,'Question not found')
-	});*/
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
 			.populate('sample')
 			.exec(function(err, obj){

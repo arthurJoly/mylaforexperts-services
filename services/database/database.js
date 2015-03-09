@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 
 var uri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/webservices-test';
 var port = process.env.PORT || 5000
