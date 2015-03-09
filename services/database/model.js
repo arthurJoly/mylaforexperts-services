@@ -1,4 +1,4 @@
-var mongoose = require(__base + 'services/database/database.js').mongoose
+var mongoose = require(__base + 'services/database/database.js').mongoose;
 var extend = require('mongoose-schema-extend');
 
 /**
@@ -16,20 +16,21 @@ var questionSchema = mongoose.Schema({
 	text : String,
 	date : String,
 	sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
-})
+});
 
 //------ SAMPLE -------
 //---------------------
 var sampleSchema = mongoose.Schema({
 	specimenType : Number
-}, { collection : 'samples', discriminatorKey : '_type' })
+}, { collection : 'samples'});
 
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = sampleSchema.extend({
+	test : String
 	/*isolates : [{
 		type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'
 	}]*/
-})
+});
 
 //----- ISOLATE ------
 var isolateSchema = mongoose.Schema({
@@ -39,7 +40,7 @@ var isolateSchema = mongoose.Schema({
 		y : Number,
 		r : Number
 	}]
-})
+});
 
 
 
