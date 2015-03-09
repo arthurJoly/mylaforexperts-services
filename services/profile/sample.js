@@ -1,12 +1,14 @@
 var Sample = require(__base + 'services/database/model.js').Sample
+var PetriDshSample = require(__base + 'services/database/model.js').PetriDishSample
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
-module.exports.createSample = function(request,response) {
-	var sample = new Sample({
-		specimenType : request.body.specimenType
+module.exports.createPetriDishSample = function(request,response) {
+	var petriDishSample = new PetriDishSample({
+		specimenType : request.body.specimenType,
+		isolates : request.body.isolates
 	});
 
 	sample.save(function(err) {
@@ -17,7 +19,7 @@ module.exports.createSample = function(request,response) {
 	});
 }
 
-module.exports.specificSample = function(request,response) {
+module.exports.specificPetriDishSample = function(request,response) {
 	Sample.findById(mongoose.Types.ObjectId(request.query.sampleId), function(err, obj) {
 	if (obj)
 		utils.httpResponse(response,200,'Sample successfully found',obj)

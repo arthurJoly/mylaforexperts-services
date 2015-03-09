@@ -3,6 +3,7 @@ var app = require(__base + 'app.js').app
 var user = require(__base + 'services/profile/user.js')
 var question = require(__base + 'services/profile/question.js')
 var sample = require(__base + 'services/profile/sample.js')
+var isolate = require(__base + 'services/profile/isolate.js')
 
 //---------------------------------------------
 //----------------- POST ----------------------
@@ -17,8 +18,15 @@ app.post('/question/create', function(request, response) {
 /**
 * Create a sample
 */
-app.post('/sample/create', function(request, response) {
-	sample.createSample(request,response);
+app.post('/sample/petridish/create', function(request, response) {
+	sample.createPetriDishSample(request,response);
+})
+
+/**
+* Create an isolate
+*/
+app.post('/isolate/create', function(request, response) {
+	isolate.createIsolate(request,response);
 })
 
 
@@ -40,8 +48,16 @@ app.get('/question/specific', function(request, response) {
 })
 
 /**
-* Get specific sample
+* Get specific petri dish sample
 */
-app.get('/sample/specific', function(request, response) {
-	sample.specificSample(request,response);
+app.get('/sample/petridish/specific', function(request, response) {
+	sample.specificPetriDishSample(request,response);
+})
+
+
+/**
+* Get specific isolate
+*/
+app.get('/isolate/specific', function(request, response) {
+	isolate.specificIsolate(request,response);
 })
