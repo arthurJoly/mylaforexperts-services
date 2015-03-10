@@ -1,15 +1,16 @@
 var Question = require(__base + 'services/database/model.js').Question
 var Sample = require(__base + 'services/database/model.js').Sample
+var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 module.exports.createQuestion = function(request,response) {
-	Sample.find({}, function(err, samples){
+	PetriDishSample.find({}, function(err, petridishSamples){
 		var question = new Question({
 			text : request.body.text,
 			date : request.body.date,
-			sample : samples[samples.length-1]._id
+			sample : petridishSamples[petridishSamples.length-1]._id
 		});
 
 		question.save(function(err) {
