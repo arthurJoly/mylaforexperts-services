@@ -35,7 +35,7 @@ module.exports.questionOverview = function(request,response) {
 }
 
 module.exports.specificQuestion = function(request,response) {
-	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
+	/*Question.findById(mongoose.Types.ObjectId(request.query.questionId))
 			.deepPopulate('sample.isolates')
 			.exec(function(err, obj){
 				if(err){
@@ -44,8 +44,8 @@ module.exports.specificQuestion = function(request,response) {
 				else{
 					utils.httpResponse(response,200,'Question successfully found',obj);
 				}				
-			})
-	/*Question.findById(mongoose.Types.ObjectId(request.query.questionId))
+			})*/
+	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
 			.populate('sample')
 			.exec(function(err, obj){
 				if(err){
@@ -53,8 +53,9 @@ module.exports.specificQuestion = function(request,response) {
 				}
 				else{
 					Isolate.populate(obj, {
-						path : 'sample.isolates'
+						path : 'sample.isolates',
+						select : 'color'
 					}, utils.httpResponse(response,200,'Question successfully found',obj));	
 				}				
-			})*/
+			})
 }
