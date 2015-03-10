@@ -61,5 +61,5 @@ var isolateSchema = mongoose.Schema({
 module.exports.User = mongoose.model('User', userSchema)
 module.exports.Question = mongoose.model('Question', questionSchema)
 module.exports.Sample = mongoose.model('Sample', sampleSchema)
-module.exports.PetriDishSample = petriDishSampleSchema
+module.exports.PetriDishSample = mongoose.model('Sample', sampleSchema).discriminator('PetriDishSample', petriDishSampleSchema)
 module.exports.Isolate = mongoose.model('Isolate', isolateSchema)
