@@ -42,11 +42,14 @@ module.exports.specificQuestion = function(request,response) {
 					utils.httpResponse(response,500,'Question not found')
 				}
 				else{
+					obj.sample.populate('isolates', function(err){
+						utils.httpResponse(response,200,'Question successfully found',obj)
+					})
 					//PetriDishSample.populate(obj, {
 					//	path : 'isolates',
 					//	select : 'color',
 					//	model : Isolate
-					/*},*/ utils.httpResponse(response,200,'Question successfully found',obj)//);	
+					//}, utils.httpResponse(response,200,'Question successfully found',obj));	
 				}				
 			})
 }
