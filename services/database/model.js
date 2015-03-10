@@ -1,5 +1,6 @@
 var mongoose = require(__base + 'services/database/database.js').mongoose;
 var util = require('util');
+var deepPopulate = require('mongoose-deep-populate');
 
 /**
 * MongoDB schema
@@ -17,6 +18,8 @@ var questionSchema = mongoose.Schema({
 	date : String,
 	sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
 });
+
+questionSchema.plugin(deepPopulate,{});
 
 //------ SAMPLE -------
 //---------------------

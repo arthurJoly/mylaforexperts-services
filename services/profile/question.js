@@ -2,7 +2,9 @@ var Question = require(__base + 'services/database/model.js').Question
 var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 var Isolate = require(__base + 'services/database/model.js').Isolate
+
 var uuid = require('node-uuid')
+var deepPopulate = require('mongoose-deep-populate');
 var utils = require(__base + 'services/utils/utils.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
@@ -34,6 +36,16 @@ module.exports.questionOverview = function(request,response) {
 
 module.exports.specificQuestion = function(request,response) {
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
+			.deepPopulate('sample.isolates')
+			.exec(function(err, obj){
+				if(err){
+					utils.httpResponse(response,500,'Question not found')
+				}
+				else{
+					utils.httpResponse(response,200,'Question successfully found',obj);
+				}				
+			})
+	/*Question.findById(mongoose.Types.ObjectId(request.query.questionId))
 			.populate('sample')
 			.exec(function(err, obj){
 				if(err){
@@ -44,5 +56,5 @@ module.exports.specificQuestion = function(request,response) {
 						path : 'sample.isolates'
 					}, utils.httpResponse(response,200,'Question successfully found',obj));	
 				}				
-			})
+			})*/
 }
