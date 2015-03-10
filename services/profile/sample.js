@@ -1,5 +1,5 @@
 var Sample = require(__base + 'services/database/model.js').Sample
-var PetriDshSample = require(__base + 'services/database/model.js').PetriDishSample
+var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 var Isolate = require(__base + 'services/database/model.js').Isolate
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')

@@ -35,11 +35,6 @@ var sampleSchema = new AbstractSampleSchema();
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = new AbstractSampleSchema({
 	test : String
-	/*isolates : [{
-		type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'
-	}]*/
-	
-	//http://stackoverflow.com/questions/26825186/schemas-in-external-module-not-working-in-node-js
 });
 
 //----- ISOLATE ------
@@ -61,5 +56,5 @@ var isolateSchema = mongoose.Schema({
 module.exports.User = mongoose.model('User', userSchema)
 module.exports.Question = mongoose.model('Question', questionSchema)
 module.exports.Sample = mongoose.model('Sample', sampleSchema)
-module.exports.PetriDishSample = mongoose.model('Sample', sampleSchema).discriminator('PetriDishSample', petriDishSampleSchema)
+module.exports.PetriDishSample = mongoose.model('PetriDishSample', petriDishSampleSchema)
 module.exports.Isolate = mongoose.model('Isolate', isolateSchema)
