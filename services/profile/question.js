@@ -52,11 +52,14 @@ module.exports.specificQuestion = function(request,response) {
 					utils.httpResponse(response,500,'Question not found')
 				}
 				else{
-					PetriDishSample.populate(obj, {
+					/*PetriDishSample.populate(obj, {
 						path : 'sample.isolates',
 						select : 'color',
 						model : Isolate
-					}, utils.httpResponse(response,200,'Question successfully found',obj));	
+					}, utils.httpResponse(response,200,'Question successfully found',obj));	*/
+					PetriDishSample.populate(obj.isolates, {path : 'sample.isolates'}, function(err, obj){
+						utils.httpResponse(response,200,'Question successfully found',obj);
+					})
 				}				
 			})
 }
