@@ -7,7 +7,8 @@ var mongoose = require(__base + 'services/database/database.js').mongoose
 module.exports.createIsolate = function(request,response) {
 	var isolate = new Isolate({
 		color : request.body.color,
-		annotations : request.body.annotations
+		annotations : request.body.annotations,
+		tests : request.body.tests
 	});
 
 	isolate.save(function(err) {

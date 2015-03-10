@@ -1,6 +1,5 @@
 var mongoose = require(__base + 'services/database/database.js').mongoose;
 var util = require('util');
-var deepPopulate = require('mongoose-deep-populate');
 
 /**
 * MongoDB schema
@@ -40,13 +39,17 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 	isolates : [{type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'}]
 });
 
-//----- ISOLATE ------
+//------ ISOLATE ------
 var isolateSchema = mongoose.Schema({
 	color : Number,
 	annotations : [{
 		x : Number,
 		y : Number,
 		r : Number
+	}],
+	tests : [{
+		instrument : Number,
+		detail : String	
 	}]
 });
 
