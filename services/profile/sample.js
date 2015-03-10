@@ -25,7 +25,7 @@ module.exports.createPetriDishSample = function(request,response) {
 }
 
 module.exports.specificPetriDishSample = function(request,response) {
-	Sample.findById(mongoose.Types.ObjectId(request.query.sampleId))
+	PetriDishSample.findById(mongoose.Types.ObjectId(request.query.sampleId))
 			.populate('isolates')
 			.exec(function(err, obj){
 				if (obj)
