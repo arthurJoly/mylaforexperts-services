@@ -46,21 +46,17 @@ module.exports.specificQuestion = function(request,response) {
 				}				
 			})*/
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
-			.lean()
 			.populate('sample')
 			.exec(function(err, obj){
 				if(err){
 					utils.httpResponse(response,500,'Question not found')
 				}
 				else{
-					/*PetriDishSample.populate(obj, {
+					PetriDishSample.populate(obj, {
 						path : 'sample.isolates',
 						select : 'color',
 						model : Isolate
-					}, utils.httpResponse(response,200,'Question successfully found',obj));	*/
-					PetriDishSample.populate(obj.isolates, {path : 'sample'}, function(err, obj){
-						utils.httpResponse(response,200,'Question successfully found',obj);
-					});
+					}, utils.httpResponse(response,200,'Question successfully found',obj));	
 				}				
 			})
 }
