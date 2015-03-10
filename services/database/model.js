@@ -52,7 +52,6 @@ var isolateSchema = mongoose.Schema({
 /**
 * Mongo model
 */
-
 module.exports.User = mongoose.model('User', userSchema)
 module.exports.Question = mongoose.model('Question', questionSchema)
 var Sample = mongoose.model('Sample', sampleSchema);
