@@ -54,7 +54,8 @@ module.exports.specificQuestion = function(request,response) {
 				else{
 					PetriDishSample.populate(obj, {
 						path : 'sample.isolates',
-						select : 'color'
+						select : 'color',
+						model : Isolate
 					}, utils.httpResponse(response,200,'Question successfully found',obj));	
 				}				
 			})
