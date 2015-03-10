@@ -18,8 +18,6 @@ var questionSchema = mongoose.Schema({
 	sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
 });
 
-questionSchema.plugin(deepPopulate,{});
-
 //------ SAMPLE -------
 //---------------------
 function AbstractSampleSchema(){
