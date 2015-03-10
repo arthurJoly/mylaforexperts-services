@@ -34,7 +34,7 @@ var sampleSchema = new AbstractSampleSchema();
 	                                                  
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = new AbstractSampleSchema({
-	test : String
+	isolates : [{type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'}]
 });
 
 //----- ISOLATE ------
