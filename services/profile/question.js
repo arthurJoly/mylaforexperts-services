@@ -35,16 +35,6 @@ module.exports.questionOverview = function(request,response) {
 }
 
 module.exports.specificQuestion = function(request,response) {
-	/*Question.findById(mongoose.Types.ObjectId(request.query.questionId))
-			.deepPopulate('sample.isolates')
-			.exec(function(err, obj){
-				if(err){
-					utils.httpResponse(response,500,'Question not found')
-				}
-				else{
-					utils.httpResponse(response,200,'Question successfully found',obj);
-				}				
-			})*/
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
 			.populate('sample')
 			.exec(function(err, obj){
@@ -52,14 +42,11 @@ module.exports.specificQuestion = function(request,response) {
 					utils.httpResponse(response,500,'Question not found')
 				}
 				else{
-					PetriDishSample.populate(obj, {
-						path : 'isolates',
-						select : 'color',
-						model : Isolate
-					}, utils.httpResponse(response,200,'Question successfully found',obj));	
-					/*PetriDishSample.populate(obj.isolates, {path : 'sample.isolates'}, function(err, obj){
-						utils.httpResponse(response,200,'Question successfully found',obj);
-					})*/
+					//PetriDishSample.populate(obj, {
+					//	path : 'isolates',
+					//	select : 'color',
+					//	model : Isolate
+					/*},*/ utils.httpResponse(response,200,'Question successfully found',obj)//);	
 				}				
 			})
 }
