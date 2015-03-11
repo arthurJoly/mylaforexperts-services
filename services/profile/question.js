@@ -42,13 +42,7 @@ module.exports.specificQuestion = function(request,response) {
 				utils.httpResponse(response,404,'Question not found')
 			}
 			else{
-				//obj.sample.populate('isolates', function(err){
-				//	if(err){
-				//		utils.httpResponse(response,404,'Question not found')
-				//	} else {
-						utils.httpResponse(response,200,'Question successfully found',obj)
-				//	}
-				//})
+				utils.httpResponse(response,200,'Question successfully found',obj)
 			}				
 		})
 }
@@ -59,15 +53,17 @@ module.exports.answerQuestion = function(request,response) {
 			utils.httpResponse(response,404,'Question not found')
 		} else {
 			if (question) {
-			question.answered = true;
-			
-			PetriDishSample.findOne({_id : question.sample}, function(err, petridishSample){
+				question.answered = true;
 				
-			})
-			
-			
-			question.save()
-			utils.httpResponse(response, 200, 'Question successfully modified')
+				PetriDishSample.findOne({_id : question.sample}, function(err, petridishSample){
+					if(petridishSample){
+						petridishSample.isolates = request.body.isolates;
+						petridishSample.save();
+					}
+				})
+							
+				question.save();
+				utils.httpResponse(response, 200, 'Question successfully modified')
 			} else{
 				utils.httpResponse(response, 500, 'Question not found')
 			}
