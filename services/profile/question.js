@@ -27,7 +27,7 @@ module.exports.createQuestion = function(request,response) {
 }
 
 module.exports.questionOverview = function(request,response) {
-	 Question.find('-sample -__v',function(err, questions){
+	 Question.find({answered : false},'-sample -__v',function(err, questions){
 		if (err)
 			utils.httpResponse(response,500,err)
 		else
