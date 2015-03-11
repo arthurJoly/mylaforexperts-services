@@ -59,7 +59,7 @@ module.exports.answerQuestion = function(request,response) {
 		if(err){
 			utils.httpResponse(response,404,'Question not found')
 		} else {
-			question.answered : true;
+			question.answered = true;
 			questionsave(function(err) {
 				if (err)
 					utils.httpResponse(response,500,err)
