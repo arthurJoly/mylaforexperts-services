@@ -13,6 +13,7 @@ module.exports.createQuestion = function(request,response) {
 		var question = new Question({
 			text : request.body.text,
 			date : request.body.date,
+			answered : false,
 			sample : petridishSamples[petridishSamples.length-1]._id
 		});
 
@@ -36,19 +37,38 @@ module.exports.questionOverview = function(request,response) {
 
 module.exports.specificQuestion = function(request,response) {
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
-			.populate('sample')
-			.exec(function(err, obj){
-				if(err){
-					utils.httpResponse(response,500,'Question not found')
-				}
-				else{
-					obj.sample.populate('isolates', function(err){
-						if(err){
-							utils.httpResponse(response,500,'Question not found')
-						} else {
-							utils.httpResponse(response,200,'Question successfully found',obj)
-						}
-					})
-				}				
-			})
+		.populate('sample')
+		.exec(function(err, obj){
+			if(err){
+				utils.httpResponse(response,500,'Question not found')
+			}
+			else{
+				obj.sample.populate('isolates', function(err){
+					if(err){
+						utils.httpResponse(response,500,'Question not found')
+					} else {
+						utils.httpResponse(response,200,'Question successfully found',obj)
+					}
+				})
+			}				
+		})
 }
+
+module.exports.answerQuestion = function(request,response) {
+	Question.findById(mongoose.Types.ObjectId(request.query.questionId), function(err, question){
+		if(err){
+			utils.httpResponse(response,404,'Question not found')
+		} else {
+			question.answered = true;
+			questionsave(function(err) {
+				if (err)
+					utils.httpResponse(response,500,err)
+				else
+					utils.httpResponse(response,200,'Question successfully modified')
+			});
+		}
+	});
+}
+
+
+

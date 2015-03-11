@@ -15,6 +15,7 @@ var userSchema = mongoose.Schema({
 var questionSchema = mongoose.Schema({
 	text : String,
 	date : String,
+	answered : Boolean,
 	sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
 });
 

@@ -61,3 +61,15 @@ app.get('/sample/petridish/specific', function(request, response) {
 app.get('/isolate/specific', function(request, response) {
 	isolate.specificIsolate(request,response);
 })
+
+
+//---------------------------------------------
+//------------------- PUT ---------------------
+//---------------------------------------------
+
+/**
+* Update a question
+*/
+app.put('/question/answer', function(request, response) {
+	question.answerQuestion(request,response);
+})
