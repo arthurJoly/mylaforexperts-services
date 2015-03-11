@@ -55,16 +55,6 @@ module.exports.specificQuestion = function(request,response) {
 }
 
 module.exports.answerQuestion = function(request,response) {
-	/*Question.findById(mongoose.Types.ObjectId(request.params.questionId), function(err, question){
-			question.answered = true;
-			question.save(function(err) {
-				if (err)
-					utils.httpResponse(response,500,err)
-				else
-					utils.httpResponse(response,200,'Question successfully modified')
-			});
-		
-	});*/
 	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
 		if (question) {
 			question.answered = true;
