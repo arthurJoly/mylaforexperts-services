@@ -55,7 +55,7 @@ module.exports.specificQuestion = function(request,response) {
 }
 
 module.exports.answerQuestion = function(request,response) {
-	Question.findById(mongoose.Types.ObjectId(request.body.questionId), function(err, question){
+	/*Question.findById(mongoose.Types.ObjectId(request.params.questionId), function(err, question){
 			question.answered = true;
 			question.save(function(err) {
 				if (err)
@@ -64,7 +64,23 @@ module.exports.answerQuestion = function(request,response) {
 					utils.httpResponse(response,200,'Question successfully modified')
 			});
 		
-	});
+	});*/
+	Question.findById(mongoose.Types.ObjectId(request.params.questionId))
+		.populate('sample')
+		.exec(function(err, obj){
+			if(err){
+				utils.httpResponse(response,500,'Question not found')
+			}
+			else{
+				obj.sample.populate('isolates', function(err){
+					if(err){
+						utils.httpResponse(response,500,'Question not found')
+					} else {
+						utils.httpResponse(response,200,'Question successfully found',obj)
+					}
+				})
+			}				
+		})
 }
 
 
