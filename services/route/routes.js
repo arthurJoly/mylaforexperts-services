@@ -70,6 +70,6 @@ app.get('/isolate/specific', function(request, response) {
 /**
 * Update a question
 */
-app.put('/question/answer', function(request, response) {
+app.post('/question/answer', function(request, response) {
 	question.answerQuestion(request,response);
 })
