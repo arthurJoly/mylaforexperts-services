@@ -5,7 +5,7 @@ var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
 module.exports.createIsolate = function(request,response) {
-	var isolate = new Isolate({
+	/*var isolate = new Isolate({
 		color : request.body.color,
 		annotations : request.body.annotations,
 		tests : request.body.tests
@@ -16,14 +16,14 @@ module.exports.createIsolate = function(request,response) {
 			utils.httpResponse(response,500,err)
 		else
 			utils.httpResponse(response,200,'Isolate successfully created')
-	});
+	});*/
 }
 
 module.exports.specificIsolate = function(request,response) {
-	Isolate.findById(mongoose.Types.ObjectId(request.query.isolateId), function(err, obj) {
+	/*Isolate.findById(mongoose.Types.ObjectId(request.query.isolateId), function(err, obj) {
 	if (obj)
 		utils.httpResponse(response,200,'Isolate successfully found',obj)
 	else
 		utils.httpResponse(response,500,'Isolate not found')
-	});
+	});*/
 }

@@ -35,21 +35,35 @@ var sampleSchema = new AbstractSampleSchema();
 	                                                  
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = new AbstractSampleSchema({
-	isolates : [{type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'}]
+	//isolates : [{type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'}]
+	isolates : [{
+		color : Number,
+		annotations : [{
+			x : Number,
+			y : Number,
+			r : Number
+		}],
+		tests : [{
+			instrument : Number,
+			detail : String	
+		}]
+	}]
 });
 
 //------ ISOLATE ------
 var isolateSchema = mongoose.Schema({
-	color : Number,
-	annotations : [{
-		x : Number,
-		y : Number,
-		r : Number
-	}],
-	tests : [{
-		instrument : Number,
-		detail : String	
-	}]
+	/*isolates : [{
+		color : Number,
+		annotations : [{
+			x : Number,
+			y : Number,
+			r : Number
+		}],
+		tests : [{
+			instrument : Number,
+			detail : String	
+		}]
+	}]*/
 });
 
 

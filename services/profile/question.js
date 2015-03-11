@@ -45,7 +45,7 @@ module.exports.specificQuestion = function(request,response) {
 			else{
 				obj.sample.populate('isolates', function(err){
 					if(err){
-						utils.httpResponse(response,500,'Question not found')
+						utils.httpResponse(response,404,'Question not found')
 					} else {
 						utils.httpResponse(response,200,'Question successfully found',obj)
 					}
@@ -56,14 +56,23 @@ module.exports.specificQuestion = function(request,response) {
 
 module.exports.answerQuestion = function(request,response) {
 	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
-		if (question) {
+		if(err){
+			utils.httpResponse(response,404,'Question not found')
+		} else {
+			if (question) {
 			question.answered = true;
+			
+			PetriDishSample.findOne({_id : question.sample}, function(err, petridishSample){
+				
+			})
+			
+			
 			question.save()
 			utils.httpResponse(response, 200, 'Question successfully modified')
-		}
-		else{
-			utils.httpResponse(response, 500, 'Question not found')
-		}
+			} else{
+				utils.httpResponse(response, 500, 'Question not found')
+			}
+		}		
 	});
 }
 
