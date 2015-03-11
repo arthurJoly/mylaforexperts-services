@@ -55,7 +55,7 @@ module.exports.specificQuestion = function(request,response) {
 }
 
 module.exports.answerQuestion = function(request,response) {
-	/*Question.findById(mongoose.Types.ObjectId(request.query.questionId), function(err, question){
+	Question.findOneById(mongoose.Types.ObjectId(request.query.questionId), function(err, question){
 		if(err){
 			utils.httpResponse(response,404,'Question not found')
 		} else {
@@ -67,14 +67,14 @@ module.exports.answerQuestion = function(request,response) {
 					utils.httpResponse(response,200,'Question successfully modified')
 			});
 		}
-	});*/
-	Question.findByIdAndUpdate(mongoose.Types.ObjectId(request.query.questionId), {answered : true}, function(err){
+	});
+	/*Question.findByIdAndUpdate(mongoose.Types.ObjectId(request.query.questionId), {answered : true}, function(err){
 		if(err){
 			utils.httpResponse(response,500,err)
 		} else {
 			utils.httpResponse(response,200,'Question successfully modified')
 		}
-	});
+	});*/
 }
 
 
