@@ -65,22 +65,16 @@ module.exports.answerQuestion = function(request,response) {
 			});
 		
 	});*/
-	Question.findById(mongoose.Types.ObjectId(request.body.questionId))
-		.populate('sample')
-		.exec(function(err, obj){
-			if(err){
-				utils.httpResponse(response,500,'Question not found')
-			}
-			else{
-				obj.sample.populate('isolates', function(err){
-					if(err){
-						utils.httpResponse(response,500,'Question not found')
-					} else {
-						utils.httpResponse(response,200,'Question successfully found',obj)
-					}
-				})
-			}				
-		})
+	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
+		if (question) {
+			question.answered = true;
+			question.save()
+			utils.httpResponse(response, 200, 'Question successfully modified')
+		}
+		else{
+			utils.httpResponse(response, 500, 'Question not found')
+		}
+	});
 }
 
 
