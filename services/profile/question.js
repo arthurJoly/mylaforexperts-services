@@ -55,10 +55,9 @@ module.exports.specificQuestion = function(request,response) {
 }
 
 module.exports.answerQuestion = function(request,response) {
-	Question.findOne({_id: mongoose.Types.ObjectId(request.query.questionId)}, function(err, question){
-		if(err){
-			utils.httpResponse(response,404,'Question not found')
-		} else {
+	Question.findById(mongoose.Types.ObjectId(request.query.questionId), function(err, question){
+
+			question.text = 'test';
 			question.answered = true;
 			question.save(function(err) {
 				if (err)
@@ -66,7 +65,7 @@ module.exports.answerQuestion = function(request,response) {
 				else
 					utils.httpResponse(response,200,'Question successfully modified')
 			});
-		}
+		
 	});
 	/*Question.findByIdAndUpdate(mongoose.Types.ObjectId(request.query.questionId), {answered : true}, function(err){
 		if(err){
