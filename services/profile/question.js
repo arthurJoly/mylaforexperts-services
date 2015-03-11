@@ -65,7 +65,7 @@ module.exports.answerQuestion = function(request,response) {
 			});
 		
 	});*/
-	Question.findById(mongoose.Types.ObjectId(request.params.questionId))
+	Question.findById(mongoose.Types.ObjectId(request.body.questionId))
 		.populate('sample')
 		.exec(function(err, obj){
 			if(err){
