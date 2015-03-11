@@ -35,7 +35,6 @@ var sampleSchema = new AbstractSampleSchema();
 	                                                  
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = new AbstractSampleSchema({
-	//isolates : [{type : mongoose.Schema.Types.ObjectId, ref : 'Isolate'}]
 	isolates : [{
 		color : Number,
 		annotations : [{
@@ -50,22 +49,6 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 	}]
 });
 
-//------ ISOLATE ------
-var isolateSchema = mongoose.Schema({
-	/*isolates : [{
-		color : Number,
-		annotations : [{
-			x : Number,
-			y : Number,
-			r : Number
-		}],
-		tests : [{
-			instrument : Number,
-			detail : String	
-		}]
-	}]*/
-});
-
 
 
 /**
@@ -76,4 +59,3 @@ module.exports.Question = mongoose.model('Question', questionSchema)
 var Sample = mongoose.model('Sample', sampleSchema);
 module.exports.Sample = Sample
 module.exports.PetriDishSample = Sample.discriminator('PetriDishSample', petriDishSampleSchema)
-module.exports.Isolate = mongoose.model('Isolate', isolateSchema)
