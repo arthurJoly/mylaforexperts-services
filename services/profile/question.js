@@ -55,7 +55,7 @@ module.exports.specificQuestion = function(request,response) {
 }
 
 module.exports.answerQuestion = function(request,response) {
-	Question.findById(mongoose.Types.ObjectId(request.query.questionId), function(err, question){
+	Question.findById(request.body.questionId, function(err, question){
 
 			question.text = 'test';
 			question.answered = true;
