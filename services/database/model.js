@@ -54,10 +54,8 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 			text : String
 		}],
 		lines : [{
-			startPoint : {
-				x : Number,
-				y : Number
-			},
+			x : Number,
+			y : Number,		
 			points : [{
 				x : Number,
 				y : Number
