@@ -28,7 +28,16 @@ module.exports.createQuestion = function(request,response) {
 module.exports.questionOverview = function(request,response) {
 	 Question.find({answered : false},'-sample -__v',function(err, questions){
 		if (err)
-			utils.httpResponse(response,500,err)
+			utils.httpResponse(response,404,err)
+		else
+			utils.httpResponse(response,200,'Questions successfully found',questions)
+	});
+}
+
+module.exports.questionHistory = function(request,response) {
+	 Question.find({answered : true},'-sample -__v',function(err, questions){
+		if (err)
+			utils.httpResponse(response,404,err)
 		else
 			utils.httpResponse(response,200,'Questions successfully found',questions)
 	});

@@ -32,6 +32,13 @@ app.get('/question/overview', function(request, response) {
 })
 
 /**
+* Get questions that have been answered
+*/
+app.get('/question/history', function(request, response) {
+	question.questionHistory(request,response);
+})
+
+/**
 * Get specific question
 */
 app.get('/question/specific', function(request, response) {
