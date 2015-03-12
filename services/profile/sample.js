@@ -9,7 +9,7 @@ module.exports.createPetriDishSample = function(request,response) {
 	var petriDishSample = new PetriDishSample({
 		specimenType : request.body.specimenType,
 		isolates : request.body.isolates,
-		image : request.body.image
+		//image : request.body.image
 	});
 
 	petriDishSample.save(function(err) {
