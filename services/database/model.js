@@ -46,7 +46,24 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 			instrument : Number,
 			detail : String	
 		}]
-	}]
+	}], 
+	image : {
+		texts : [{
+			x : Number,
+			y : Number,
+			text : String
+		}],
+		lines : [{
+			startPoint : {
+				x : Number,
+				y : Number
+			},
+			points : [{
+				x : Number,
+				y : Number
+			}]
+		}]
+	}
 });
 
 
