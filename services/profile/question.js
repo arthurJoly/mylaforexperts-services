@@ -58,6 +58,8 @@ module.exports.answerQuestion = function(request,response) {
 				PetriDishSample.findOne({_id : question.sample}, function(err, petridishSample){
 					if(petridishSample){
 						petridishSample.isolates = request.body.isolates;
+						petridishSample.image.texts = request.body.texts;
+						petridishSample.image.lines =request.body.lines;
 						petridishSample.save();
 					}
 				})
