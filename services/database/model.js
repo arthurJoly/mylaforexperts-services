@@ -46,8 +46,8 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 			instrument : Number,
 			detail : String	
 		}]
-	}]//, 
-	/*image : {
+	}], 
+	image : {
 		texts : [{
 			x : Number,
 			y : Number,
@@ -61,7 +61,7 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 				y : Number
 			}]
 		}]
-	}*/
+	}
 });
 
 
