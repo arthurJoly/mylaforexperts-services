@@ -2,6 +2,10 @@
   "name": "webservices-test",
   "version": "0.0.0",
   "private": true,
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/arthurJoly/mylaforexperts-services.git"
+  },
   "dependencies": {
 		"body-parser": "^1.9.3",
 		"bunyan": "^1.2.3",
