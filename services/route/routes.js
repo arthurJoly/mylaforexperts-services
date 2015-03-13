@@ -3,6 +3,7 @@ var app = require(__base + 'app.js').app
 var user = require(__base + 'services/profile/user.js')
 var question = require(__base + 'services/profile/question.js')
 var sample = require(__base + 'services/profile/sample.js')
+var patient = require(__base + 'services/profile/patient.js')
 
 //---------------------------------------------
 //----------------- POST ----------------------
@@ -19,6 +20,13 @@ app.post('/question/create', function(request, response) {
 */
 app.post('/sample/petridish/create', function(request, response) {
 	sample.createPetriDishSample(request,response);
+})
+
+/**
+* Create a patient
+*/
+app.post('/patient/create', function(request, response) {
+	patient.createPatient(request,response);
 })
 
 //---------------------------------------------
@@ -50,6 +58,13 @@ app.get('/question/specific', function(request, response) {
 */
 app.get('/sample/petridish/specific', function(request, response) {
 	sample.specificPetriDishSample(request,response);
+})
+
+/**
+* Get specific patient
+*/
+app.get('/patient/specific', function(request, response) {
+	patient.specificPatient(request,response);
 })
 
 //---------------------------------------------

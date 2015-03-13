@@ -19,13 +19,14 @@ var questionSchema = mongoose.Schema({
 	sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
 });
 
-//------ SAMPLE -------
-//---------------------
+//------ SAMPLE --------
+//----------------------
 function AbstractSampleSchema(){
 	mongoose.Schema.apply(this, arguments);
 	
 	this.add({
-		specimenType : Number
+		specimenType : Number,
+		patient : {type : mongoose.Schema.Types.ObjectId, ref : 'Patient'}
 	});
 };
 
@@ -64,6 +65,16 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 	}
 });
 
+//------ PATIENT -------
+//----------------------
+var patientSchema = mongoose.Schema({
+	age : Number,
+	sex : Number,
+	size : Number,
+	weight : Number,
+	samples : [{type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}]
+});
+
 
 
 /**
@@ -74,3 +85,4 @@ module.exports.Question = mongoose.model('Question', questionSchema)
 var Sample = mongoose.model('Sample', sampleSchema);
 module.exports.Sample = Sample
 module.exports.PetriDishSample = Sample.discriminator('PetriDishSample', petriDishSampleSchema)
+module.exports.Patient = mongoose.model('Patient', patientSchema)
