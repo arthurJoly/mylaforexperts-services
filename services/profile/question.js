@@ -51,8 +51,13 @@ module.exports.specificQuestion = function(request,response) {
 				utils.httpResponse(response,404,'Question not found')
 			}
 			else{
-				Sample.populate('obj.patient')
-				utils.httpResponse(response,200,'Question successfully found',obj)
+				obj.sample.populate('patient', function(err){
+					if(err){
+						utils.httpResponse(response,500,'Question not found')
+					}else{
+						utils.httpResponse(response,200,'Question successfully found',obj)
+					}
+				})
 			}				
 		})
 }
