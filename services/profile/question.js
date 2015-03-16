@@ -3,8 +3,8 @@ var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 
 var uuid = require('node-uuid')
-var gcm = require('node-gcm')
 var utils = require(__base + 'services/utils/utils.js')
+var notification = require(__base + 'services/utils/notification.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
@@ -23,16 +23,7 @@ module.exports.createQuestion = function(request,response) {
 				utils.httpResponse(response,500,err)
 			}
 			else{
-				var message = new gcm.Message();
-				message.addData('key1', 'new question');
-				var regIds = ['APA91bFWeAuEPexPz_JNnFEy1wgOpMsFcY9Pm8CRC1QNkA9Qz3QK05N01vAXLvtCS6Ofub2K0xAJIoMIF3tAOf5vAfP40wK4sKik6oPViJcjKy3tL6QfDhPvi2tDujFPvjKiIsZEGTXxtd8PD8WhOi0h7CVnjpxGF_dADW1Vz17iFj88eiB8AyU'];
-				var sender = new gcm.Sender('AIzaSyDz1bKCtAVnRYzUebc8AO-35uyqv7Wpu48');
-				sender.send(message, regIds, function (err, result) {
-					if(err) 
-						console.error(err);
-					else    
-						console.log(result);
-				});
+				notification.sendNotification(question.text)
 				utils.httpResponse(response,200,'Question successfully created')
 			}
 		});
