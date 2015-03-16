@@ -4,7 +4,6 @@ var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSa
 
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')
-var notification = require(__base + 'services/utils/notification.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
@@ -23,7 +22,7 @@ module.exports.createQuestion = function(request,response) {
 				utils.httpResponse(response,500,err)
 			}
 			else{
-				notification.sendNotification(question.text)
+				utils.sendNotification(question.text)
 				utils.httpResponse(response,200,'Question successfully created')
 			}
 		});
