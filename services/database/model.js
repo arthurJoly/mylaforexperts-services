@@ -75,6 +75,11 @@ var patientSchema = mongoose.Schema({
 	samples : [{type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}]
 });
 
+//---- REGISTRATION ----
+//----------------------
+var registrationSchema = mongoose.Schema({
+	regid : String
+});
 
 
 /**
@@ -86,3 +91,4 @@ var Sample = mongoose.model('Sample', sampleSchema);
 module.exports.Sample = Sample
 module.exports.PetriDishSample = Sample.discriminator('PetriDishSample', petriDishSampleSchema)
 module.exports.Patient = mongoose.model('Patient', patientSchema)
+module.exports.Registration = mongoose.model('Registration', registrationSchema)

@@ -4,6 +4,7 @@ var user = require(__base + 'services/profile/user.js')
 var question = require(__base + 'services/profile/question.js')
 var sample = require(__base + 'services/profile/sample.js')
 var patient = require(__base + 'services/profile/patient.js')
+var registration = require(__base + 'services/profile/registration.js')
 
 //---------------------------------------------
 //----------------- POST ----------------------
@@ -27,6 +28,14 @@ app.post('/sample/petridish/create', function(request, response) {
 */
 app.post('/patient/create', function(request, response) {
 	patient.createPatient(request,response);
+})
+
+
+/**
+* Store registration Id in database
+*/
+app.post('/notification/registration/create', function(request, response) {
+	registration.createRegistration(request,response);
 })
 
 //---------------------------------------------
