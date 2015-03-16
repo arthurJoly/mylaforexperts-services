@@ -5,7 +5,7 @@ var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSa
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
-var gcm = require('node-gcm');
+var gcm = require('node-gcm')
 
 module.exports.createQuestion = function(request,response) {
 	//TODO : change the way we get the sample id
