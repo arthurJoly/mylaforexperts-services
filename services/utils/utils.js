@@ -1,6 +1,4 @@
-var Entities = require('ent')
 var User = require(__base + 'services/database/model.js').User
-
 
 
 /**
