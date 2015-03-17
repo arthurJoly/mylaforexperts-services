@@ -2,7 +2,7 @@ var Registration = require(__base + 'services/database/model.js').Registration
 var gcm = require('node-gcm')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
-module.exports.sendNotification = function(message){
+function sendNotification(message){
 	var message = new gcm.Message();
 	message.addData('key1', message);
 	Registration.find({}, function(err, regids){
@@ -19,3 +19,5 @@ module.exports.sendNotification = function(message){
 		});
 	});
 }
+
+module.exports.sendNotification = sendNotification
