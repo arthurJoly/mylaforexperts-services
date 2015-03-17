@@ -23,7 +23,7 @@ module.exports.createQuestion = function(request,response) {
 				utils.httpResponse(response,500,err)
 			}
 			else{
-				notification.sendNotification(question.text)
+				notification.sendNotification(question.text, question._id)
 				utils.httpResponse(response,200,'Question successfully created')
 			}
 		});

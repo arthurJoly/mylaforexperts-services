@@ -2,9 +2,15 @@ var Registration = require(__base + 'services/database/model.js').Registration
 var gcm = require('node-gcm')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
-function sendNotification(textMessage){
+var NOTIFICATION_TEXT = 'text'
+var NOTIFICATION_OBJECT_ID = 'objectID'
+
+function sendNotification(textMessage, objectId){
 	var message = new gcm.Message();
-	message.addData('key1', textMessage);
+	
+	message.addData(NOTIFICATION_TEXT, textMessage);
+	message.addData(NOTIFICATION_OBJECT_ID, objectId);
+	
 	Registration.find({}, function(err, regids){
 		var regidArray = [];
 		regids.forEach(function(item){
