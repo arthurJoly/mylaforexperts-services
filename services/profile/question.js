@@ -27,8 +27,12 @@ module.exports.createQuestion = function(request,response) {
 				var message = new gcm.Message();
 				message.addData('key1', 'test');
 				Registration.find({}, function(err, regids){
+					var regidArray = [];
+					regids.forEach(function(item){
+						regidArray.push(item.regid);
+					});
 					var sender = new gcm.Sender('AIzaSyDz1bKCtAVnRYzUebc8AO-35uyqv7Wpu48');
-					sender.send(message, regIds, function (err, result) {
+					sender.send(message, regidArray, function (err, result) {
 						if(err) 
 							console.error(err);
 						else    
