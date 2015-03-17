@@ -1,11 +1,11 @@
 var Question = require(__base + 'services/database/model.js').Question
 var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
+var Registration = require(__base + 'services/database/model.js').Registration
 
 var uuid = require('node-uuid')
-var utils = require(__base + 'services/utils/utils.js')
-var notification = require(__base + 'services/utils/notification.js')
 var gcm = require('node-gcm')
+var utils = require(__base + 'services/utils/utils.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
