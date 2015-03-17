@@ -9,24 +9,21 @@ var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
 module.exports.createQuestion = function(request,response) {
-	//TODO : change the way we get the sample id
-	PetriDishSample.find({}, function(err, petridishSamples){
-		var question = new Question({
-			text : request.body.text,
-			date : request.body.date,
-			answered : false,
-			sample : petridishSamples[petridishSamples.length-1]._id
-		});
+	var question = new Question({
+		text : request.body.text,
+		date : request.body.date,
+		answered : false,
+		sample : request.body.sample
+	});
 
-		question.save(function(err) {
-			if (err){
-				utils.httpResponse(response,500,err)
-			}
-			else{
-				notification.sendNotification(question.text, question._id)
-				utils.httpResponse(response,200,'Question successfully created')
-			}
-		});
+	question.save(function(err) {
+		if (err){
+			utils.httpResponse(response,500,err)
+		}
+		else{
+			notification.sendNotification(question.text, question._id)
+			utils.httpResponse(response,200,'Question successfully created')
+		}
 	});
 }
 
