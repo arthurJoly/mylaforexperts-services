@@ -1,11 +1,10 @@
 var Question = require(__base + 'services/database/model.js').Question
 var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
-var Registration = require(__base + 'services/database/model.js').Registration
 
 var uuid = require('node-uuid')
-var gcm = require('node-gcm')
 var utils = require(__base + 'services/utils/utils.js')
+var notification = require(__base + 'services/utils/notification.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 
@@ -24,21 +23,7 @@ module.exports.createQuestion = function(request,response) {
 				utils.httpResponse(response,500,err)
 			}
 			else{
-				var message = new gcm.Message();
-				message.addData('key1', 'test');
-				Registration.find({}, function(err, regids){
-					var regidArray = [];
-					regids.forEach(function(item){
-						regidArray.push(item.regid);
-					});
-					var sender = new gcm.Sender('AIzaSyDz1bKCtAVnRYzUebc8AO-35uyqv7Wpu48');
-					sender.send(message, regidArray, function (err, result) {
-						if(err) 
-							console.error(err);
-						else    
-							console.log(result);
-					});
-				});
+				notification.sendNotification("new question")
 				utils.httpResponse(response,200,'Question successfully created')
 			}
 		});
