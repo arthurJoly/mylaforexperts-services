@@ -4,7 +4,7 @@ var mongoose = require(__base + 'services/database/database.js').mongoose
 
 function sendNotification(message){
 	var message = new gcm.Message();
-	message.addData('key1', message);
+	message.addData('key1', 'test');
 	Registration.find({}, function(err, regids){
 		var regidArray = [];
 		regids.forEach(function(item){
