@@ -49,6 +49,13 @@ app.get('/question/overview', function(request, response) {
 })
 
 /**
+* Get all question
+*/
+app.get('/sample/overview', function(request, response) {
+	sample.sampleOverview(request,response);
+})
+
+/**
 * Get questions that have been answered
 */
 app.get('/question/history', function(request, response) {

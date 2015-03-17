@@ -36,3 +36,12 @@ module.exports.specificPetriDishSample = function(request,response) {
 				utils.httpResponse(response,404,'Sample not found')
 		});
 }
+
+module.exports.sampleOverview = function(request,response) {
+	 Sample.find({},'-isolates -image -patient -__v',function(err, questions){
+		if (err)
+			utils.httpResponse(response,404,err)
+		else
+			utils.httpResponse(response,200,'Samples successfully found',questions)
+	});
+}

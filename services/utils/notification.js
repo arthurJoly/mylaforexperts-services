@@ -12,7 +12,6 @@ function sendNotification(textMessage, objectId){
 	message.addData(NOTIFICATION_OBJECT_ID, objectId);
 	
 	Registration.find({}, function(err, regids){
-		// regidArray = ['APA91bFWeAuEPexPz_JNnFEy1wgOpMsFcY9Pm8CRC1QNkA9Qz3QK05N01vAXLvtCS6Ofub2K0xAJIoMIF3tAOf5vAfP40wK4sKik6oPViJcjKy3tL6QfDhPvi2tDujFPvjKiIsZEGTXxtd8PD8WhOi0h7CVnjpxGF_dADW1Vz17iFj88eiB8AyU'];
 		var regidArray = []
 		regids.forEach(function(item){
 			regidArray.push(item.regid);
