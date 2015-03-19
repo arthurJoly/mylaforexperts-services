@@ -37,29 +37,29 @@ module.exports.createQuestion = function(request,response) {
 }
 
 module.exports.questionOverview = function(request,response) {
-	 Question.find({answered : false},'-sample -__v',function(err, questions){
-		if (err)
-			utils.httpResponse(response,404,err)
-		else
-			utils.httpResponse(response,200,'Questions successfully found',questions)
-	});
-}
-
-module.exports.questionHistory = function(request,response) {
-	 /*Question.find({answered : true},'-__v',function(err, questions){
+	 /*Question.find({answered : false},'-sample -__v',function(err, questions){
 		if (err)
 			utils.httpResponse(response,404,err)
 		else
 			utils.httpResponse(response,200,'Questions successfully found',questions)
 	});*/
 	Question.find({answered : true},'-__v')
-			.populate('sample', 'environmentType')
-			.exec(function(err,obj){
-				if (err)
-					utils.httpResponse(response,404,err)
-				else
-					utils.httpResponse(response,200,'Questions successfully found',questions)
-			});
+		.populate('sample', 'environmentType')
+		.exec(function(err,obj){
+			if (err)
+				utils.httpResponse(response,404,err)
+			else
+				utils.httpResponse(response,200,'Questions successfully found',questions)
+		});
+}
+
+module.exports.questionHistory = function(request,response) {
+	 Question.find({answered : true},'-__v',function(err, questions){
+		if (err)
+			utils.httpResponse(response,404,err)
+		else
+			utils.httpResponse(response,200,'Questions successfully found',questions)
+	});
 }
 
 module.exports.specificQuestion = function(request,response) {
