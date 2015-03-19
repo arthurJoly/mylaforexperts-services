@@ -43,7 +43,7 @@ module.exports.questionOverview = function(request,response) {
 		else
 			utils.httpResponse(response,200,'Questions successfully found',questions)
 	});*/
-	Question.find({answered : false},'-sample -__v',function(err, questions){
+	Question.find({answered : false},'-__v',function(err, questions){
 		if (err){
 			utils.httpResponse(response,404,err)
 		}		
