@@ -12,6 +12,7 @@ module.exports.createPetriDishSample = function(request,response) {
 	Patient.find({}, function(err, patients){
 		var petriDishSample = new PetriDishSample({
 			specimenType : request.body.specimenType,
+			environmentType : request.body.environmentType,
 			isolates : request.body.isolates,
 			image : request.body.image,
 			patient : patients[patients.length-1]._id

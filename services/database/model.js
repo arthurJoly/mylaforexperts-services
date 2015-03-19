@@ -36,6 +36,7 @@ var sampleSchema = new AbstractSampleSchema();
 	                                                  
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = new AbstractSampleSchema({
+	environmentType : Number,
 	isolates : [{
 		color : Number,
 		annotations : [{
