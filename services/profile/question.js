@@ -3,9 +3,14 @@ var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 
 var uuid = require('node-uuid')
+var hashMap = require('hashmap')
 var utils = require(__base + 'services/utils/utils.js')
 var notification = require(__base + 'services/utils/notification.js')
 var mongoose = require(__base + 'services/database/database.js').mongoose
+
+//------- Notifications keys ----------
+var NOTIFICATION_TEXT = 'text'
+var NOTIFICATION_OBJECT_ID = 'objectID'
 
 
 module.exports.createQuestion = function(request,response) {
@@ -21,7 +26,11 @@ module.exports.createQuestion = function(request,response) {
 			utils.httpResponse(response,500,err)
 		}
 		else{
-			notification.sendNotification(question.text, question._id)
+			var hashmapMessage = new hashmap.HashMap()
+			hashmapMessage.set(NOTIFICATION_TEXT,question.text)
+			hashmapMessage.set(NOTIFICATION_OBJECT_ID,question._id)
+			
+			notification.sendNotification(hashmapMessage)
 			utils.httpResponse(response,200,'Question successfully created')
 		}
 	});

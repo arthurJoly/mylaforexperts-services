@@ -16,6 +16,7 @@
 		"mongoose": "^3.8.21",
 		"node-uuid": "^1.4.2",
 		"node-gcm": "^0.9.15",
+		"hashmap": "^2.0.1",
 		"ws": "0.4.x",
 		"owl-deepcopy": "~0.0.1"
 	},

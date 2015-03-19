@@ -1,21 +1,23 @@
 var Registration = require(__base + 'services/database/model.js').Registration
 var gcm = require('node-gcm')
+var hashMap = require('hashmap')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 var COLLAPSE_KEY_QUESTION = 'question_key'
+var TIME_TO_LIVE = 259200 //3 days
 
-var NOTIFICATION_TEXT = 'text'
-var NOTIFICATION_OBJECT_ID = 'objectID'
-
-function sendNotification(textMessage, objectId){
+function sendNotification(hashmapMessage){
 	var message = new gcm.Message();
 	
 	message.collapseKey = COLLAPSE_KEY_QUESTION 
 	message.delayWhileIdle = false // do not wait for device to become active before sending.
+	message.timeToLive = TIME_TO_LIVE
 	
-	message.addData(NOTIFICATION_TEXT, textMessage);
-	message.addData(NOTIFICATION_OBJECT_ID, objectId);
 	
+	hashmapMessage.forEach(function(value, key){
+		message.addData(key, value);
+	})
+		
 	Registration.find({}, function(err, regids){
 		var regidArray = []
 		regids.forEach(function(item){
