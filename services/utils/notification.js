@@ -4,7 +4,7 @@ var hashMap = require('hashmap')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
 var COLLAPSE_KEY_QUESTION = 'question_key'
-var TIME_TO_LIVE = 259200 //3 days
+var TIME_TO_LIVE = 259200 // 3 days
 
 function sendNotification(hashmapMessage){
 	var message = new gcm.Message();
