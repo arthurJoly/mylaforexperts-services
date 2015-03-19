@@ -43,8 +43,8 @@ module.exports.questionOverview = function(request,response) {
 		else
 			utils.httpResponse(response,200,'Questions successfully found',questions)
 	});*/
-	Question.find({answered : true},'-__v')
-		.populate('sample', 'environmentType')
+	Question.find({answered : false},'-__v')
+		.populate('sample')
 		.exec(function(err,obj){
 			if (err)
 				utils.httpResponse(response,404,err)
