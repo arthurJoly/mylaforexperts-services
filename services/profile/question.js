@@ -26,7 +26,7 @@ module.exports.createQuestion = function(request,response) {
 			utils.httpResponse(response,500,err)
 		}
 		else{
-			var hashmapMessage = new hashmap.HashMap()
+			var hashmapMessage = new hashMap.HashMap()
 			hashmapMessage.set(NOTIFICATION_TEXT,question.text)
 			hashmapMessage.set(NOTIFICATION_OBJECT_ID,question._id)
 			
