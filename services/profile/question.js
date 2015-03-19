@@ -46,12 +46,20 @@ module.exports.questionOverview = function(request,response) {
 }
 
 module.exports.questionHistory = function(request,response) {
-	 Question.find({answered : true},'-sample -__v',function(err, questions){
+	 /*Question.find({answered : true},'-__v',function(err, questions){
 		if (err)
 			utils.httpResponse(response,404,err)
 		else
 			utils.httpResponse(response,200,'Questions successfully found',questions)
-	});
+	});*/
+	Question.find({answered : true},'-__v')
+			.populate('sample', 'environmentType')
+			.exec(function(err,obj){
+				if (err)
+					utils.httpResponse(response,404,err)
+				else
+					utils.httpResponse(response,200,'Questions successfully found',questions)
+			});
 }
 
 module.exports.specificQuestion = function(request,response) {
