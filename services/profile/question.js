@@ -37,14 +37,8 @@ module.exports.createQuestion = function(request,response) {
 }
 
 module.exports.questionOverview = function(request,response) {
-	 /*Question.find({answered : false},'-sample -__v',function(err, questions){
-		if (err)
-			utils.httpResponse(response,404,err)
-		else
-			utils.httpResponse(response,200,'Questions successfully found',questions)
-	});*/
-	Question.find({answered : false})
-			.populate('sample')
+	Question.find({answered : false}, '-__v')
+			.populate('sample', ['specimenType', 'environmentType'])
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
