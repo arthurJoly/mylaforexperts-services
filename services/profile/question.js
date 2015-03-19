@@ -43,15 +43,21 @@ module.exports.questionOverview = function(request,response) {
 		else
 			utils.httpResponse(response,200,'Questions successfully found',questions)
 	});*/
-	Question.find()
-		.lean()
-		.populate({ path: 'sample' })
-		.exec(function(err,obj){
-			if (err)
-				utils.httpResponse(response,404,err)
-			else
-				utils.httpResponse(response,200,'Questions successfully found',questions)
-		});
+	Question.find({answered : false},'-sample -__v',function(err, questions){
+		if (err){
+			utils.httpResponse(response,404,err)
+		}		
+		else{
+			questions.forEach(function(item){
+				item.populate('sample',function(err){
+					if(err){
+						utils.httpResponse(response,503,'')
+					}
+				})
+			})
+			utils.httpResponse(response,200,'Questions successfully found',questions)
+		}		
+	});
 }
 
 module.exports.questionHistory = function(request,response) {
