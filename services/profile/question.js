@@ -72,7 +72,7 @@ module.exports.specificQuestion = function(request,response) {
 			else{
 				obj.sample.populate('patient', function(err){
 					if(err){
-						utils.httpResponse(response,500,'Question not found')
+						utils.httpResponse(response,500,'Internal error')
 					}else{
 						utils.httpResponse(response,200,'Question successfully found',obj)
 					}
@@ -84,7 +84,7 @@ module.exports.specificQuestion = function(request,response) {
 module.exports.answerQuestion = function(request,response) {
 	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
 		if(err){
-			utils.httpResponse(response,404,'Question not found')
+			utils.httpResponse(response,500,'Could not modify question')
 		} else {
 			if (question) {
 				question.answered = true;
@@ -101,7 +101,7 @@ module.exports.answerQuestion = function(request,response) {
 				question.save();
 				utils.httpResponse(response, 200, 'Question successfully modified')
 			} else{
-				utils.httpResponse(response, 500, 'Question not found')
+				utils.httpResponse(response, 404, 'Question not found')
 			}
 		}		
 	});
