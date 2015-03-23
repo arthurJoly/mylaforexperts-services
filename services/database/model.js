@@ -85,7 +85,6 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 //---- VALIDATION SAMPLE ---
 var validationSampleSchema = new AbstractSampleSchema({
 	result : {
-		date : String,
 		finalGerm : {
 			name : String,
 			confidence : Number,
