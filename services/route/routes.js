@@ -34,8 +34,8 @@ app.post('/sample/petridish/create', function(request, response) {
 /**
 * Create a sample with results
 */
-app.post('/sample/resultSample/create', function(request, response) {
-	sample.createResultSample(request,response);
+app.post('/sample/validationSample/create', function(request, response) {
+	sample.createValidationSample(request,response);
 })
 
 /**

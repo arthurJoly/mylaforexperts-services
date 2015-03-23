@@ -3,6 +3,7 @@ var Question = require(__base + 'services/database/model.js').Question
 var Validation = require(__base + 'services/database/model.js').Validation
 var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
+var ValidationSample = require(__base + 'services/database/model.js').ValidationSample
 
 var uuid = require('node-uuid')
 var hashMap = require('hashmap')

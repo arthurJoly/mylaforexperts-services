@@ -82,9 +82,9 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 	}
 });
 
-//---- RESULT SAMPLE ---
-var resultSampleSchema = new AbstractSampleSchema({
-	results : {
+//---- VALIDATION SAMPLE ---
+var validationSampleSchema = new AbstractSampleSchema({
+	result : {
 		date : String,
 		finalGerm : {
 			name : String,
@@ -127,6 +127,6 @@ module.exports.Validation = Feed.discriminator('Validation', validationSchema)
 var Sample = mongoose.model('Sample', sampleSchema);
 module.exports.Sample = Sample
 module.exports.PetriDishSample = Sample.discriminator('PetriDishSample', petriDishSampleSchema)
-module.exports.ResultSample = Sample.discriminator('ResultSample', resultSampleSchema)
+module.exports.ValidationSample = Sample.discriminator('ValidationSample', validationSampleSchema)
 module.exports.Patient = mongoose.model('Patient', patientSchema)
 module.exports.Registration = mongoose.model('Registration', registrationSchema)
