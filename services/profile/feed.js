@@ -83,7 +83,7 @@ module.exports.questionOverview = function(request,response) {
 
 module.exports.validationOverview = function(request,response) {
 	Validation.find({answered : false}, '-__v')
-			.populate('sample', 'specimenType environmentType')
+			.populate('sample', 'specimenType environmentType results.possibleGerms results.finalGerm')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
