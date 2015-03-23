@@ -1,8 +1,7 @@
 var app = require(__base + 'app.js').app
 
 var user = require(__base + 'services/profile/user.js')
-var question = require(__base + 'services/profile/question.js')
-var validation = require(__base + 'services/profile/validation.js')
+var feed = require(__base + 'services/profile/feed.js')
 var sample = require(__base + 'services/profile/sample.js')
 var patient = require(__base + 'services/profile/patient.js')
 var registration = require(__base + 'services/profile/registration.js')
@@ -14,14 +13,14 @@ var registration = require(__base + 'services/profile/registration.js')
 * Create a question
 */
 app.post('/question/create', function(request, response) {
-	question.createQuestion(request,response);
+	feed.createQuestion(request,response);
 })
 
 /**
 * Create a validation
 */
 app.post('/validation/create', function(request, response) {
-	validation.createValidation(request,response);
+	feed.createValidation(request,response);
 })
 
 
@@ -58,10 +57,24 @@ app.post('/notification/registration/create', function(request, response) {
 //------------------- GET ---------------------
 //---------------------------------------------
 /**
-* Get all question
+* Get all feeds
+*/
+app.get('/feed/overview', function(request, response) {
+	feed.feedOverview(request,response);
+})
+
+/**
+* Get all questions
 */
 app.get('/question/overview', function(request, response) {
-	question.questionOverview(request,response);
+	feed.questionOverview(request,response);
+})
+
+/**
+* Get all validations
+*/
+app.get('/validation/overview', function(request, response) {
+	feed.validationOverview(request,response);
 })
 
 /**
@@ -75,14 +88,14 @@ app.get('/sample/overview', function(request, response) {
 * Get questions that have been answered
 */
 app.get('/question/history', function(request, response) {
-	question.questionHistory(request,response);
+	feed.questionHistory(request,response);
 })
 
 /**
 * Get specific question
 */
 app.get('/question/specific', function(request, response) {
-	question.specificQuestion(request,response);
+	feed.specificQuestion(request,response);
 })
 
 /**
@@ -107,5 +120,5 @@ app.get('/patient/specific', function(request, response) {
 * Update a question
 */
 app.put('/question/answer', function(request, response) {
-	question.answerQuestion(request,response);
+	feed.answerQuestion(request,response);
 })
