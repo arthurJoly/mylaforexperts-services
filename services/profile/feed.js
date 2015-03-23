@@ -14,6 +14,11 @@ var mongoose = require(__base + 'services/database/database.js').mongoose
 //------- Notifications keys ----------
 var NOTIFICATION_TEXT = 'text'
 var NOTIFICATION_OBJECT_ID = 'objectID'
+var NOTIFICATION_GERM_NAME = 'germName'
+var NOTIFICATION_GERM_CONFIDENCE = 'germConfidence'
+var NOTIFICATION_GERM_PATHOGEN_STATUS = 'germPathogenStatus'
+var COLLAPSE_KEY_QUESTION = 'question_key'
+var COLLAPSE_KEY_VALIDATION = 'validation_key'
 
 
 module.exports.createQuestion = function(request,response) {
@@ -33,7 +38,7 @@ module.exports.createQuestion = function(request,response) {
 			hashmapMessage.set(NOTIFICATION_TEXT,question.text)
 			hashmapMessage.set(NOTIFICATION_OBJECT_ID,question._id)
 			
-			notification.sendNotification(hashmapMessage)
+			notification.sendNotification(hashmapMessage, COLLAPSE_KEY_QUESTION)
 			utils.httpResponse(response,200,'Question successfully created')
 		}
 	});
@@ -51,6 +56,13 @@ module.exports.createValidation = function(request,response) {
 			utils.httpResponse(response,500,err)
 		}
 		else{
+			var hashmapMessage = new hashMap.HashMap()
+			hashmapMessage.set(NOTIFICATION_GERM_NAME,validation.sample.result.finalGerm.name)
+			hashmapMessage.set(NOTIFICATION_GERM_CONFIDENCE,validation.sample.result.finalGerm.name)
+			hashmapMessage.set(NOTIFICATION_GERM_PATHOGEN_STATUS,validation.sample.result.finalGerm.pathogenStatus)
+			hashmapMessage.set(NOTIFICATION_OBJECT_ID,validation._id)
+			
+			notification.sendNotification(hashmapMessage, COLLAPSE_KEY_VALIDATION)
 			utils.httpResponse(response,200,'Validation successfully created')
 		}
 	});
@@ -58,7 +70,7 @@ module.exports.createValidation = function(request,response) {
 
 module.exports.feedOverview = function(request,response) {
 	Feed.find({answered : false}, '-__v')
-			.populate('sample', 'specimenType environmentType result.possibleGerms result.finalGerm')
+			.populate('sample', 'specimenType environmentType result')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
@@ -84,7 +96,7 @@ module.exports.questionOverview = function(request,response) {
 
 module.exports.validationOverview = function(request,response) {
 	Validation.find({answered : false}, '-__v')
-			.populate('sample', 'specimenType environmentType result.possibleGerms result.finalGerm')
+			.populate('sample', 'specimenType environmentType result')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)

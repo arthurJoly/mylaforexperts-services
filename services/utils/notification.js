@@ -3,13 +3,13 @@ var gcm = require('node-gcm')
 var hashMap = require('hashmap')
 var mongoose = require(__base + 'services/database/database.js').mongoose
 
-var COLLAPSE_KEY_QUESTION = 'question_key'
+
 var TIME_TO_LIVE = 259200 // 3 days
 
-function sendNotification(hashmapMessage){
+function sendNotification(hashmapMessage, collapseKey){
 	var message = new gcm.Message();
 	
-	message.collapseKey = COLLAPSE_KEY_QUESTION 
+	message.collapseKey = collapseKey 
 	message.delayWhileIdle = false // do not wait for device to become active before sending.
 	message.timeToLive = TIME_TO_LIVE
 	
