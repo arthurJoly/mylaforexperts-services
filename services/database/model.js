@@ -84,7 +84,7 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 
 //---- RESULT SAMPLE ---
 var resultSampleSchema = new AbstractSampleSchema({
-	results : [{
+	results : {
 		date : String,
 		finalGerm : {
 			name : String,
@@ -96,7 +96,7 @@ var resultSampleSchema = new AbstractSampleSchema({
 			confidence : Number,
 			pathogenStatus : Number
 		}]
-	}]
+	}
 });
 
 //------ PATIENT -------
