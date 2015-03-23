@@ -10,13 +10,29 @@ var userSchema = mongoose.Schema({
 	username : String
 })
 
-//------ QUESTION ------
+//-------- FEED --------
 //----------------------
-var questionSchema = mongoose.Schema({
-	text : String,
-	date : String,
-	answered : Boolean,
-	sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
+function AbstractFeedSchema(){
+	mongoose.Schema.apply(this, arguments);
+	
+	this.add({
+		date : String,
+		answered : Boolean,
+		sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
+	});
+};
+
+util.inherits(AbstractFeedSchema, mongoose.Schema);
+
+var feedSchema = new AbstractFeedSchema(); 
+
+//------ QUESTION ------
+var questionSchema = new AbstractFeedSchema({
+	text : String
+});
+
+//------ VALIDATION ------
+var validationSchema = new AbstractFeedSchema({
 });
 
 //------ SAMPLE --------
@@ -26,7 +42,8 @@ function AbstractSampleSchema(){
 	
 	this.add({
 		specimenType : Number,
-		patient : {type : mongoose.Schema.Types.ObjectId, ref : 'Patient'}
+		environmentType : Number,
+		patient : {type : mongoose.Schema.Types.ObjectId, ref : 'Patient'},
 	});
 };
 
@@ -36,7 +53,6 @@ var sampleSchema = new AbstractSampleSchema();
 	                                                  
 //- PETRI DISH SAMPLE -
 var petriDishSampleSchema = new AbstractSampleSchema({
-	environmentType : Number,
 	isolates : [{
 		color : Number,
 		annotations : [{
@@ -66,6 +82,23 @@ var petriDishSampleSchema = new AbstractSampleSchema({
 	}
 });
 
+//---- RESULT SAMPLE ---
+var resultSampleSchema = new AbstractSampleSchema({
+	results : [{
+		date : String,
+		finalGerm : {
+			name : String,
+			confidence : Number,
+			pathogenStatus : Number
+		},
+		possibleGerms : [{
+			name : String,
+			confidence : Number,
+			pathogenStatus : Number
+		}]
+	}]
+});
+
 //------ PATIENT -------
 //----------------------
 var patientSchema = mongoose.Schema({
@@ -87,9 +120,13 @@ var registrationSchema = mongoose.Schema({
 * Mongo model
 */
 module.exports.User = mongoose.model('User', userSchema)
-module.exports.Question = mongoose.model('Question', questionSchema)
+var Feed = mongoose.model('Feed', feedSchema);
+module.exports.Feed = Feed
+module.exports.Question = Feed.discriminator('Question', questionSchema)
+module.exports.Validation = Feed.discriminator('Validation', validationSchema)
 var Sample = mongoose.model('Sample', sampleSchema);
 module.exports.Sample = Sample
 module.exports.PetriDishSample = Sample.discriminator('PetriDishSample', petriDishSampleSchema)
+module.exports.ResultSample = Sample.discriminator('ResultSample', resultSampleSchema)
 module.exports.Patient = mongoose.model('Patient', patientSchema)
 module.exports.Registration = mongoose.model('Registration', registrationSchema)

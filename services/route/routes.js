@@ -2,6 +2,7 @@ var app = require(__base + 'app.js').app
 
 var user = require(__base + 'services/profile/user.js')
 var question = require(__base + 'services/profile/question.js')
+var validation = require(__base + 'services/profile/validation.js')
 var sample = require(__base + 'services/profile/sample.js')
 var patient = require(__base + 'services/profile/patient.js')
 var registration = require(__base + 'services/profile/registration.js')
@@ -17,10 +18,25 @@ app.post('/question/create', function(request, response) {
 })
 
 /**
-* Create a sample
+* Create a validation
+*/
+app.post('/validation/create', function(request, response) {
+	validation.createValidation(request,response);
+})
+
+
+/**
+* Create a petridish sample
 */
 app.post('/sample/petridish/create', function(request, response) {
 	sample.createPetriDishSample(request,response);
+})
+
+/**
+* Create a sample with results
+*/
+app.post('/sample/resultSample/create', function(request, response) {
+	sample.createResultSample(request,response);
 })
 
 /**
