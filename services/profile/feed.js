@@ -57,7 +57,7 @@ module.exports.createValidation = function(request,response) {
 
 module.exports.feedOverview = function(request,response) {
 	Feed.find({answered : false}, '-__v')
-			.populate('sample', 'specimenType environmentType')
+			.populate('sample', 'specimenType environmentType results')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
@@ -70,7 +70,7 @@ module.exports.feedOverview = function(request,response) {
 
 module.exports.questionOverview = function(request,response) {
 	Question.find({answered : false}, '-__v')
-			.populate('sample', 'specimenType environmentType results')
+			.populate('sample', 'specimenType environmentType')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
