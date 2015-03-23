@@ -57,13 +57,17 @@ module.exports.createValidation = function(request,response) {
 		}
 		else{
 			var hashmapMessage = new hashMap.HashMap()
-			hashmapMessage.set(NOTIFICATION_GERM_NAME,validation.populate('sample').sample.result.finalGerm.name)
-			hashmapMessage.set(NOTIFICATION_GERM_CONFIDENCE,50)
-			hashmapMessage.set(NOTIFICATION_GERM_PATHOGEN_STATUS,0)
-			hashmapMessage.set(NOTIFICATION_OBJECT_ID,validation._id)
-			
-			notification.sendNotification(hashmapMessage, COLLAPSE_KEY_VALIDATION)
-			utils.httpResponse(response,200,'Validation successfully created')
+			validation.populate('sample' function(err){
+				if(!err){
+					hashmapMessage.set(NOTIFICATION_GERM_NAME,validation.sample.result.finalGerm.name)
+					hashmapMessage.set(NOTIFICATION_GERM_CONFIDENCE,50)
+					hashmapMessage.set(NOTIFICATION_GERM_PATHOGEN_STATUS,0)
+					hashmapMessage.set(NOTIFICATION_OBJECT_ID,validation._id)
+					
+					notification.sendNotification(hashmapMessage, COLLAPSE_KEY_VALIDATION)
+					utils.httpResponse(response,200,'Validation successfully created')
+				}
+			})
 		}
 	});
 }
