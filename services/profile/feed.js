@@ -57,9 +57,9 @@ module.exports.createValidation = function(request,response) {
 		}
 		else{
 			var hashmapMessage = new hashMap.HashMap()
-			hashmapMessage.set(NOTIFICATION_GERM_NAME,validation.sample.result.finalGerm.name)
-			hashmapMessage.set(NOTIFICATION_GERM_CONFIDENCE,validation.sample.result.finalGerm.name)
-			hashmapMessage.set(NOTIFICATION_GERM_PATHOGEN_STATUS,validation.sample.result.finalGerm.pathogenStatus)
+			hashmapMessage.set(NOTIFICATION_GERM_NAME,"test")
+			hashmapMessage.set(NOTIFICATION_GERM_CONFIDENCE,50)
+			hashmapMessage.set(NOTIFICATION_GERM_PATHOGEN_STATUS,0)
 			hashmapMessage.set(NOTIFICATION_OBJECT_ID,validation._id)
 			
 			notification.sendNotification(hashmapMessage, COLLAPSE_KEY_VALIDATION)
