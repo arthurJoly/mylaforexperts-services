@@ -48,7 +48,8 @@ module.exports.createValidation = function(request,response) {
 	var validation = new Validation({
 		date : request.body.date,
 		answered : false,
-		sample : request.body.sample
+		sample : request.body.sample,
+		validate : false
 	});
 
 	validation.save(function(err) {

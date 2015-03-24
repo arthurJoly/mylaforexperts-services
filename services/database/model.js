@@ -33,6 +33,7 @@ var questionSchema = new AbstractFeedSchema({
 
 //------ VALIDATION ------
 var validationSchema = new AbstractFeedSchema({
+	validate : Boolean
 });
 
 //------ SAMPLE --------
