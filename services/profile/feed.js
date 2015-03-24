@@ -46,10 +46,10 @@ module.exports.createQuestion = function(request,response) {
 
 module.exports.createValidation = function(request,response) {
 	var validation = new Validation({
+		validateState : false,
 		date : request.body.date,
 		answered : false,
-		sample : request.body.sample,
-		validate : false
+		sample : request.body.sample	
 	});
 
 	validation.save(function(err) {
@@ -182,7 +182,7 @@ module.exports.answerValidation = function(request,response) {
 			if (validation) {
 				validation.answered = true;
 				
-				validation.validate = request.body.validate;
+				validation.validateState = request.body.validateState;
 							
 				validation.save();
 				utils.httpResponse(response, 200, 'Validation successfully modified')
