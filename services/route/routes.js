@@ -122,3 +122,10 @@ app.get('/patient/specific', function(request, response) {
 app.put('/question/answer', function(request, response) {
 	feed.answerQuestion(request,response);
 })
+
+/**
+* Update a question
+*/
+app.put('/validation/answer', function(request, response) {
+	feed.answerValidation(request,response);
+})

@@ -174,4 +174,24 @@ module.exports.answerQuestion = function(request,response) {
 }
 
 
+module.exports.answerValidation = function(request,response) {
+	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.validationId)}, function (err, validation) {
+		if(err){
+			utils.httpResponse(response,500,'Could not modify validation')
+		} else {
+			if (validation) {
+				validation.answered = true;
+				
+				validation.validate = request.body.validate;
+							
+				validation.save();
+				utils.httpResponse(response, 200, 'Validation successfully modified')
+			} else{
+				utils.httpResponse(response, 404, 'Validation not found')
+			}
+		}		
+	});
+}
+
+
 
