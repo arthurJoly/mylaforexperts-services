@@ -55,19 +55,22 @@ module.exports.createValidation = function(request,response) {
 		if (err){
 			utils.httpResponse(response,500,err)
 		}
-		else{
-			var hashmapMessage = new hashMap.HashMap()
-			validation.populate('sample' function(err){
+		else{	
+			Validation.findById(mongoose.Types.ObjectId(validation._id))
+			.populate('sample')
+			.exec(function(err, obj){
 				if(!err){
-					hashmapMessage.set(NOTIFICATION_GERM_NAME,validation.sample.result.finalGerm.name)
-					hashmapMessage.set(NOTIFICATION_GERM_CONFIDENCE,50)
-					hashmapMessage.set(NOTIFICATION_GERM_PATHOGEN_STATUS,0)
-					hashmapMessage.set(NOTIFICATION_OBJECT_ID,validation._id)
+					var hashmapMessage = new hashMap.HashMap()
+					hashmapMessage.set(NOTIFICATION_GERM_NAME,obj.sample.result.finalGerm.name)
+					hashmapMessage.set(NOTIFICATION_GERM_CONFIDENCE,obj.sample.result.finalGerm.confidence)
+					hashmapMessage.set(NOTIFICATION_GERM_PATHOGEN_STATUS,obj.sample.result.finalGerm.pathogenStatus)
+					hashmapMessage.set(NOTIFICATION_OBJECT_ID,obj._id)
 					
 					notification.sendNotification(hashmapMessage, COLLAPSE_KEY_VALIDATION)
-					utils.httpResponse(response,200,'Validation successfully created')
 				}
 			})
+		
+			utils.httpResponse(response,200,'Validation successfully created')			
 		}
 	});
 }
