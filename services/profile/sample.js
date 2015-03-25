@@ -59,7 +59,7 @@ module.exports.specificPetriDishSample = function(request,response) {
 }
 
 module.exports.sampleOverview = function(request,response) {
-	 Sample.find({},'-isolates -image -results -patient -__v',function(err, questions){
+	 Sample.find({},'-isolates -image -result -patient -__v',function(err, questions){
 		if (err)
 			utils.httpResponse(response,404,err)
 		else

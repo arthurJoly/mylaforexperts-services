@@ -99,6 +99,13 @@ app.get('/question/specific', function(request, response) {
 })
 
 /**
+* Get specific validation
+*/
+app.get('/validation/specific', function(request, response) {
+	feed.specificValidation(request,response);
+})
+
+/**
 * Get specific petri dish sample
 */
 app.get('/sample/petridish/specific', function(request, response) {

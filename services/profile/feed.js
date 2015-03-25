@@ -68,10 +68,11 @@ module.exports.createValidation = function(request,response) {
 					hashmapMessage.set(NOTIFICATION_OBJECT_ID,obj._id)
 					
 					notification.sendNotification(hashmapMessage, COLLAPSE_KEY_VALIDATION)
+					utils.httpResponse(response,200,'Validation successfully created')
+				} else {
+					utils.httpResponse(response,500,err)
 				}
-			})
-		
-			utils.httpResponse(response,200,'Validation successfully created')			
+			})					
 		}
 	});
 }
@@ -147,6 +148,25 @@ module.exports.specificQuestion = function(request,response) {
 		})
 }
 
+module.exports.specificValidation = function(request,response) {
+	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
+		.populate('sample')
+		.exec(function(err, obj){
+			if(err){
+				utils.httpResponse(response,404,'Validation not found')
+			}
+			else{
+				obj.sample.populate('patient', function(err){
+					if(err){
+						utils.httpResponse(response,500,'Internal error')
+					}else{
+						utils.httpResponse(response,200,'Validation successfully found',obj)
+					}
+				})
+			}				
+		})
+}
+
 module.exports.answerQuestion = function(request,response) {
 	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
 		if(err){
@@ -159,7 +179,7 @@ module.exports.answerQuestion = function(request,response) {
 					if(petridishSample){
 						petridishSample.isolates = request.body.isolates;
 						petridishSample.image.texts = request.body.texts;
-						petridishSample.image.lines =request.body.lines;
+						petridishSample.image.lines = request.body.lines;
 						petridishSample.save();
 					}
 				})
