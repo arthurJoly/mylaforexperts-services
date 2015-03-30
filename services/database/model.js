@@ -7,6 +7,7 @@ var util = require('util');
 //-------- USER --------
 //----------------------
 var userSchema = mongoose.Schema({
+	token : String,
 	username : String,
 	password : String,
 	role : Number

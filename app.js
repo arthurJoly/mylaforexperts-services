@@ -4,7 +4,7 @@
 global.__base = __dirname + '/'
 bunyan = require('bunyan');
 log = bunyan.createLogger({
-	name: 'Webservices-test',
+	name: 'mfe_webservices',
 	streams: [
 	{
 		stream: process.stdout ,

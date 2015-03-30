@@ -37,8 +37,11 @@ module.exports.loginUser = function(request,response) {
 }
 
 function loginUser(user,request,response) {
-	User.findOne({username : user.username}, function(err, obj) {
+	User.findOne({username : user.username, password : user.password}, function(err, obj) {
 		if (obj) {
+			obj.token = uuid.v4()
+			request.session.userToken = obj.token;
+			obj.save()
 			utils.httpResponse(response,200,'User successfully (created and) logged in')
 		}else {
 			utils.httpResponse(response,500,'Impossible to log in the user, user not found')
