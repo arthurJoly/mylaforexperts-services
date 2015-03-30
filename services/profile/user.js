@@ -5,17 +5,18 @@ var utils = require(__base + 'services/utils/utils.js')
 module.exports.registerUser = function(request,response) {
 	var user = {
 		username : request.body.username,
-		password : request.body.password
+		password : request.body.password,
+		role : request.body.role
 	}
 	
 	User.find({username : user.username}, function(err, obj) {
 		if (obj.length > 0) {
 			utils.httpResponse(response,403,'User already exists')
-		}
-		else {
+		}else {
 			var tmpUser = new User ({
 				username : user.username,
-				password : user.password
+				password : user.password,
+				role : user.role
 			});
 			tmpUser.save(function (err) {
 				if (err)
@@ -39,8 +40,7 @@ function loginUser(user,request,response) {
 	User.findOne({username : user.username}, function(err, obj) {
 		if (obj) {
 			utils.httpResponse(response,200,'User successfully (created and) logged in')
-		}
-		else {
+		}else {
 			utils.httpResponse(response,500,'Impossible to log in the user, user not found')
 		}
 	});

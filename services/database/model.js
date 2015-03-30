@@ -8,7 +8,8 @@ var util = require('util');
 //----------------------
 var userSchema = mongoose.Schema({
 	username : String,
-	password : String
+	password : String,
+	role : Number
 })
 
 //-------- FEED --------
