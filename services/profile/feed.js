@@ -161,7 +161,13 @@ module.exports.specificValidation = function(request,response) {
 					if(err){
 						utils.httpResponse(response,500,'Internal error')
 					}else{
-						utils.httpResponse(response,200,'Validation successfully found',obj)
+						obj.comments.populate('user', function(err)){
+							if(err){
+								utils.httpResponse(response,500,'Internal error')
+							}else{
+								utils.httpResponse(response,200,'Validation successfully found',obj)
+							}
+						}						
 					}
 				})
 			}				
@@ -200,24 +206,31 @@ module.exports.answerValidation = function(request,response) {
 			utils.httpResponse(response,500,'Could not modify validation')
 		} else {
 			if (validation) {
-				var tmpComment = new Comment({
-					date : request.body.date,
-					message : request.body.message	
-				});
-				
-				tmpComment.save(function (err,comment) {
-					if (err){
+				User.findOne({token : request.session.userToken}, function(err,owner){
+					if(!err){
+						var tmpComment = new Comment({
+							date : request.body.date,
+							user : owner._id,
+							message : request.body.message	
+						});
+						
+						tmpComment.save(function (err,comment) {
+							if (err){
+								utils.httpResponse(response,500,err)
+							}else{
+								validation.answered = true;			
+								validation.validateState = request.body.validateState;
+								
+								validation.comments.push(comment._id);
+								validation.save();
+								utils.httpResponse(response, 200, 'Validation successfully modified')
+							}
+						});
+					} else {
 						utils.httpResponse(response,500,err)
 					}
-					else{
-						validation.answered = true;			
-						validation.validateState = request.body.validateState;
-						
-						validation.comments.push(comment._id);
-						validation.save();
-						utils.httpResponse(response, 200, 'Validation successfully modified')
-					}
-				});
+
+				});				
 			} else{
 				utils.httpResponse(response, 404, 'Validation not found')
 			}
