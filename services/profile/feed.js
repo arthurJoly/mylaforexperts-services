@@ -1,5 +1,6 @@
 var Feed = require(__base + 'services/database/model.js').Feed
 var Question = require(__base + 'services/database/model.js').Question
+var User = require(__base + 'services/database/model.js').User
 var Validation = require(__base + 'services/database/model.js').Validation
 var Comment = require(__base + 'services/database/model.js').Comment
 var Sample = require(__base + 'services/database/model.js').Sample
