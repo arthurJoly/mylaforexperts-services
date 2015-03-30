@@ -161,13 +161,13 @@ module.exports.specificValidation = function(request,response) {
 					if(err){
 						utils.httpResponse(response,500,'Internal error')
 					}else{
-						obj.comments.populate('user', function(err)){
+						obj.comments.populate('user', function(err){
 							if(err){
 								utils.httpResponse(response,500,'Internal error')
 							}else{
 								utils.httpResponse(response,200,'Validation successfully found',obj)
 							}
-						}						
+						})						
 					}
 				})
 			}				
