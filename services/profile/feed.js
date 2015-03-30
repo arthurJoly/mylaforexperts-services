@@ -1,6 +1,7 @@
 var Feed = require(__base + 'services/database/model.js').Feed
 var Question = require(__base + 'services/database/model.js').Question
 var Validation = require(__base + 'services/database/model.js').Validation
+var Comment = require(__base + 'services/database/model.js').Comment
 var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 var ValidationSample = require(__base + 'services/database/model.js').ValidationSample
@@ -193,19 +194,30 @@ module.exports.answerQuestion = function(request,response) {
 	});
 }
 
-
 module.exports.answerValidation = function(request,response) {
 	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.validationId)}, function (err, validation) {
 		if(err){
 			utils.httpResponse(response,500,'Could not modify validation')
 		} else {
 			if (validation) {
-				validation.answered = true;
+				var tmpComment = new Comment({
+					date : request.body.date,
+					message : request.body.message	
+				});
 				
-				validation.validateState = request.body.validateState;
-							
-				validation.save();
-				utils.httpResponse(response, 200, 'Validation successfully modified')
+				tmpComment.save(function (err,comment) {
+					if (err){
+						utils.httpResponse(response,500,err)
+					}
+					else{
+						validation.answered = true;			
+						validation.validateState = request.body.validateState;
+						
+						validation.comments.push(comment._id);
+						validation.save();
+						utils.httpResponse(response, 200, 'Validation successfully modified')
+					}
+				});
 			} else{
 				utils.httpResponse(response, 404, 'Validation not found')
 			}
