@@ -166,7 +166,7 @@ module.exports.specificValidation = function(request,response) {
 							if(err){
 								utils.httpResponse(response,500,'Internal error')
 							}else{
-								utils.httpResponse(response,200,'Validation successfully found',obj)
+								utils.httpResponse(response,200,'Validation successfully found',feed)
 							}
 						})
 					}
