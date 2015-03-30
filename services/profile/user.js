@@ -21,9 +21,7 @@ module.exports.registerUser = function(request,response) {
 				if (err)
 					utils.httpResponse(response,500,err)
 				else
-					utils.httpResponse(response,200,'User successfully created')
-					//loginUser(tmpUser,request,response)
-				
+					loginUser(tmpUser,request,response)
 			});
 		}		
 	});
