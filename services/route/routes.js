@@ -9,6 +9,14 @@ var registration = require(__base + 'services/profile/registration.js')
 //---------------------------------------------
 //----------------- POST ----------------------
 //---------------------------------------------
+
+/**
+* Create an user
+*/
+app.post('/user/register', function(request, response) {
+	user.registerUser(request,response);
+})
+
 /**
 * Create a question
 */
@@ -22,7 +30,6 @@ app.post('/question/create', function(request, response) {
 app.post('/validation/create', function(request, response) {
 	feed.createValidation(request,response);
 })
-
 
 /**
 * Create a petridish sample
