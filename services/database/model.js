@@ -12,6 +12,14 @@ var userSchema = mongoose.Schema({
 	role : Number
 })
 
+//------ COMMENT -------
+//----------------------
+var commentSchema = mongoose.Schema({
+	date : String,
+	user : {type : mongoose.Schema.Types.ObjectId, ref : 'User'},
+	message : String
+})
+
 //-------- FEED --------
 //----------------------
 function AbstractFeedSchema(){
@@ -20,7 +28,8 @@ function AbstractFeedSchema(){
 	this.add({
 		date : String,
 		answered : Boolean,
-		sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}
+		sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'},
+		comments : [{type : mongoose.Schema.Types.ObjectId, ref : 'Comment'}]
 	});
 };
 
@@ -122,6 +131,7 @@ var registrationSchema = mongoose.Schema({
 * Mongo model
 */
 module.exports.User = mongoose.model('User', userSchema)
+module.exports.Comment = mongoose.model('Comment', commentSchema)
 var Feed = mongoose.model('Feed', feedSchema);
 module.exports.Feed = Feed
 module.exports.Question = Feed.discriminator('Question', questionSchema)
