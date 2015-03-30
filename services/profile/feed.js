@@ -158,17 +158,17 @@ module.exports.specificValidation = function(request,response) {
 				utils.httpResponse(response,404,'Validation not found')
 			}
 			else{
-				obj.sample.populate('patient', function(err, feed){
+				obj.sample.populate('patient', function(err,){
 					if(err){
 						utils.httpResponse(response,500,'Internal error')
 					}else{
-						//feed.comments.populate('user', function(err){
-						//	if(err){
-						//		utils.httpResponse(response,500,'Internal error')
-						//	}else{
-								utils.httpResponse(response,200,'Validation successfully found',feed)
-						//	}
-						//})
+						obj.comments.populate('user', function(err){
+							if(err){
+								utils.httpResponse(response,500,'Internal error')
+							}else{
+								utils.httpResponse(response,200,'Validation successfully found',obj)
+							}
+						})
 					}
 				})
 			}				
