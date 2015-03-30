@@ -2,11 +2,6 @@ var User = require(__base + 'services/database/model.js').User
 var uuid = require('node-uuid')
 var utils = require(__base + 'services/utils/utils.js')
 
-/**
-* Create a new user and log this user in
-* @param request
-* @param response
-*/
 module.exports.registerUser = function(request,response) {
 	var user = {
 		username : request.body.username,
@@ -34,28 +29,17 @@ module.exports.registerUser = function(request,response) {
 	});
 }
 
-/**
-* Log in the user and add its id into the session
-* @param request
-* @param response
-*/
 module.exports.loginUser = function(request,response) {
 	var user = {
-		username : request.body.username
+		username : request.body.username,
+		password : request.body.password
 	}
 	loginUser(user,request,response)
 }
 
-/**
-* Log in the user and ad d it into the session
-* @param user User to log in
-* @param request
-* @param response
-*/
 function loginUser(user,request,response) {
 	User.findOne({username : user.username}, function(err, obj) {
 		if (obj) {
-			obj.save()
 			utils.httpResponse(response,200,'User successfully (created and) logged in')
 		}
 		else {

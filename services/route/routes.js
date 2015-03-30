@@ -18,6 +18,13 @@ app.post('/user/register', function(request, response) {
 })
 
 /**
+* Login an user
+*/
+app.post('/user/login', function(request, response) {
+	user.loginUser(request,response);
+})
+
+/**
 * Create a question
 */
 app.post('/question/create', function(request, response) {
