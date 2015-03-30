@@ -151,7 +151,7 @@ module.exports.specificQuestion = function(request,response) {
 }
 
 module.exports.specificValidation = function(request,response) {
-	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
+	/*Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
 		.populate('sample comments')
 		.exec(function(err, obj){
 			if(err){
@@ -161,17 +161,23 @@ module.exports.specificValidation = function(request,response) {
 				obj.sample.populate('patient', function(err){
 					if(err){
 						utils.httpResponse(response,500,'Internal error')
-					}
-				})
-				obj.comments.populate('user', function(err){
-					if(err){
-						utils.httpResponse(response,500,'Internal error')
 					}else{
 						utils.httpResponse(response,200,'Validation successfully found',obj)
 					}
-				})	
+				})
 			}				
-		})
+		})*/
+		
+	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
+	.populate('sample sample.patient comments comments.user')
+	.exec(function(err, obj){
+		if(err){
+			utils.httpResponse(response,404,'Validation not found')
+		}
+		else{
+			utils.httpResponse(response,200,'Validation successfully found',obj)
+		}				
+	})
 }
 
 module.exports.answerQuestion = function(request,response) {
