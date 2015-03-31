@@ -162,7 +162,7 @@ module.exports.specificValidation = function(request,response) {
 				//	if(err){
 				//		utils.httpResponse(response,500,'Internal error')
 				//	}else{
-						obj.comments.populate('user', function(err){
+						obj.populate('comments.user', function(err){
 							if(err){
 								utils.httpResponse(response,500,'Internal error')
 							}else{
