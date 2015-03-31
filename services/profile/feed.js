@@ -158,28 +158,27 @@ module.exports.specificValidation = function(request,response) {
 				utils.httpResponse(response,404,'Validation not found')
 			}
 			else{
-				//obj.sample.populate('patient', function(err){
-				//	if(err){
-				//		utils.httpResponse(response,500,'Internal error')
-				//	}else{
-					obj.sample.populate('patient')
-					obj.comments.populate('user')
-					.exec(function(err,doc){
-						if(err){
-							utils.httpResponse(response,500,'Internal error')
-						}else{
-							utils.httpResponse(response,200,'Validation successfully found',doc)
-						}
+				obj.sample.populate('patient', function(err){
+					if(err){
+						utils.httpResponse(response,500,'Internal error')
+					}//else{
+						//obj.populate('comments.user sample.patient', function(err){
+						//	if(err){
+						//		utils.httpResponse(response,500,'Internal error')
+						//	}else{
+					//			utils.httpResponse(response,200,'Validation successfully found',obj)
+						//	}
+						//})
+					//}
+				})
+				
+				obj.comments.forEach(function(item) { 
+					item.populate('user', function(err){
+						utils.httpResponse(response,500,'Internal error')
 					})
-						/*obj.populate('comments.user sample.patient', function(err){
-							if(err){
-								utils.httpResponse(response,500,'Internal error')
-							}else{
-								utils.httpResponse(response,200,'Validation successfully found',obj)
-							}
-						})*/
-				//	}
-				//})
+				})
+				
+				utils.httpResponse(response,200,'Validation successfully found',obj)
 			}				
 		})
 }
