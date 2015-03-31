@@ -162,13 +162,22 @@ module.exports.specificValidation = function(request,response) {
 				//	if(err){
 				//		utils.httpResponse(response,500,'Internal error')
 				//	}else{
-						obj.populate('comments.user sample.patient', function(err){
+					obj.sample.populate('patient')
+					obj.comments.populate('user')
+					.exec(function(err,doc){
+						if(err){
+							utils.httpResponse(response,500,'Internal error')
+						}else{
+							utils.httpResponse(response,200,'Validation successfully found',doc)
+						}
+					})
+						/*obj.populate('comments.user sample.patient', function(err){
 							if(err){
 								utils.httpResponse(response,500,'Internal error')
 							}else{
 								utils.httpResponse(response,200,'Validation successfully found',obj)
 							}
-						})
+						})*/
 				//	}
 				//})
 			}				
