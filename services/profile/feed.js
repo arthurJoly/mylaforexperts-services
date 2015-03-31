@@ -130,6 +130,19 @@ module.exports.questionHistory = function(request,response) {
 			})
 }
 
+module.exports.specificQuestionOverview = function(request,response) {
+	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
+		.populate('comments.user', '-password -token')
+		.exec(function(err, obj){
+			if(err){
+				utils.httpResponse(response,404,'Question not found')
+			}
+			else{
+				utils.httpResponse(response,200,'Question successfully found',obj)
+			}				
+		})
+}
+
 module.exports.specificQuestion = function(request,response) {
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
 		.populate('sample')
