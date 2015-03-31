@@ -132,7 +132,8 @@ module.exports.questionHistory = function(request,response) {
 
 module.exports.specificQuestion = function(request,response) {
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
-		.populate('sample comments.user')
+		.populate('sample')
+		.populate('comments.user', '-password -token')
 		.exec(function(err, obj){
 			if(err){
 				utils.httpResponse(response,404,'Question not found')
@@ -151,8 +152,8 @@ module.exports.specificQuestion = function(request,response) {
 
 module.exports.specificValidation = function(request,response) {
 	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
-		.populate('sample comments.user')
-		
+		.populate('sample')
+		.populate('comments.user', '-password -token')	
 		.exec(function(err, obj){
 			if(err){
 				utils.httpResponse(response,404,'Validation not found')
