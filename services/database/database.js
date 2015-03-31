@@ -7,7 +7,7 @@ mongoose.connect(uri, function (err, res) {
 	if (err)
 		console.log ('ERROR connecting to: ' + uri + '. ' + err)
 	else
-		console.log ('Succeeded connected to ta mère: ' + uri)
+		console.log ('Succeeded connected to : ' + uri)
 })
 
 /**
