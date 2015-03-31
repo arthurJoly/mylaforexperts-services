@@ -2,7 +2,6 @@ var Feed = require(__base + 'services/database/model.js').Feed
 var Question = require(__base + 'services/database/model.js').Question
 var User = require(__base + 'services/database/model.js').User
 var Validation = require(__base + 'services/database/model.js').Validation
-var Comment = require(__base + 'services/database/model.js').Comment
 var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 var ValidationSample = require(__base + 'services/database/model.js').ValidationSample
@@ -133,7 +132,7 @@ module.exports.questionHistory = function(request,response) {
 
 module.exports.specificQuestion = function(request,response) {
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
-		.populate('sample comments')
+		.populate('sample comments.user')
 		.exec(function(err, obj){
 			if(err){
 				utils.httpResponse(response,404,'Question not found')
@@ -152,24 +151,19 @@ module.exports.specificQuestion = function(request,response) {
 
 module.exports.specificValidation = function(request,response) {
 	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
-		.populate('sample comments')
+		.populate('sample comments.user')
+		
 		.exec(function(err, obj){
 			if(err){
 				utils.httpResponse(response,404,'Validation not found')
 			}
 			else{
-				obj.comments.populate('user', function(err){
+				obj.sample.populate('patient', function(err){
 					if(err){
 						utils.httpResponse(response,500,'Internal error')
 					}else{
-						//obj.populate('comments.user sample.patient', function(err){
-						//	if(err){
-						//		utils.httpResponse(response,500,'Internal error')
-						//	}else{
-								utils.httpResponse(response,200,'Validation successfully found',obj)
-						//	}
-						//})
-					//}
+						utils.httpResponse(response,200,'Validation successfully found',obj)
+					}
 				})
 			}				
 		})
@@ -209,24 +203,16 @@ module.exports.answerValidation = function(request,response) {
 			if (validation) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
 					if(!err){
-						var tmpComment = new Comment({
+						validation.answered = true;			
+						validation.validateState = request.body.validateState;
+						
+						validation.comments.push({
 							date : request.body.date,
 							user : owner._id,
 							message : request.body.message	
 						});
-						
-						tmpComment.save(function (err,comment) {
-							if (err){
-								utils.httpResponse(response,500,err)
-							}else{
-								validation.answered = true;			
-								validation.validateState = request.body.validateState;
-								
-								validation.comments.push(comment._id);
-								validation.save();
-								utils.httpResponse(response, 200, 'Validation successfully modified')
-							}
-						});
+						validation.save();
+						utils.httpResponse(response, 200, 'Validation successfully modified')
 					} else {
 						utils.httpResponse(response,500,err)
 					}
