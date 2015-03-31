@@ -170,7 +170,7 @@ module.exports.specificValidation = function(request,response) {
 							}
 						})
 				//	}
-				})
+				//})
 			}				
 		})
 }
