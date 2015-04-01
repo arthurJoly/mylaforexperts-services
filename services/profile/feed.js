@@ -239,21 +239,9 @@ module.exports.commentQuestion = function(request,response) {
 							user : owner._id,
 							message : request.body.message	
 						});
-						question.save();
-						
-						Question.findById(mongoose.Types.ObjectId(request.query.questionId))
-						.populate('comments.user', '-password -token')
-						.exec(function(err, obj){
-							if(err){
-								utils.httpResponse(response,404,'Question not found')
-							}
-							else{
-								utils.httpResponse(response,200,'Comment successfully added',obj.comments)
-							}				
-						})
-						
+						question.save();	
+						returnCommentQuestion(request,response)						
 						//utils.httpResponse(response,200,'Comment successfully added',question.comments)
-
 					} else {
 						utils.httpResponse(response,500,err)
 					}
@@ -263,6 +251,18 @@ module.exports.commentQuestion = function(request,response) {
 			}
 		}		
 	});
+}
+
+function returnCommentQuestion(request,response) {
+	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
+	.populate('comments.user', '-password -token')	
+	.exec(function(err, obj){
+		if(err){
+			utils.httpResponse(response,404,'Validation not found')
+		}else{
+			utils.httpResponse(response,200,'Validation successfully found',obj)
+		}				
+	})
 }
 
 module.exports.commentValidation = function(request,response) {
