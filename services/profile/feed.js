@@ -266,7 +266,7 @@ module.exports.commentValidation = function(request,response) {
 							message : request.body.message	
 						});
 						validation.save();
-						utils.httpResponse(response, 200, 'Comment successfully added')
+						utils.httpResponse(response, 200, 'Comment successfully added', validation.comments)
 					} else {
 						utils.httpResponse(response,500,err)
 					}
