@@ -240,13 +240,20 @@ module.exports.commentQuestion = function(request,response) {
 							message : request.body.message	
 						});
 						question.save();
-						question.comments.populate('user', function(err){
+						
+						Question.findById(mongoose.Types.ObjectId(request.query.questionId))
+						.populate('comments.user', '-password -token')
+						.exec(function(err, obj){
 							if(err){
-								utils.httpResponse(response,500,'Internal error')
-							}else{
-								utils.httpResponse(response,200,'Comment successfully added',question)
+								utils.httpResponse(response,404,'Question not found')
 							}
+							else{
+								utils.httpResponse(response,200,'Comment successfully added',obj.comments)
+							}				
 						})
+						
+						//utils.httpResponse(response,200,'Comment successfully added',question.comments)
+
 					} else {
 						utils.httpResponse(response,500,err)
 					}
