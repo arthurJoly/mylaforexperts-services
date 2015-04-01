@@ -133,6 +133,13 @@ app.get('/patient/specific', function(request, response) {
 	patient.specificPatient(request,response);
 })
 
+/**
+* Get specific patient
+*/
+app.get('/question/comment', function(request, response) {
+	feed.getQuestionComment(request,response);
+})
+
 //---------------------------------------------
 //------------------- PUT ---------------------
 //---------------------------------------------
