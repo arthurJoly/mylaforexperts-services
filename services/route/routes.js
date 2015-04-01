@@ -157,3 +157,10 @@ app.put('/validation/answer', function(request, response) {
 app.put('/question/comment', function(request, response) {
 	feed.commentQuestion(request,response);
 })
+
+/**
+* Add a comment to a validation
+*/
+app.put('/validation/comment', function(request, response) {
+	feed.commentValidation(request,response);
+})
