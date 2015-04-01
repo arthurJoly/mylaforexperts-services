@@ -105,14 +105,6 @@ app.get('/question/history', function(request, response) {
 	feed.questionHistory(request,response);
 })
 
-
-/**
-* Get some details (comments, question...) of a specific question 
-*/
-app.get('/question/specific/overview', function(request, response) {
-	feed.specificQuestionOverview(request,response);
-})
-
 /**
 * Get specific question
 */
