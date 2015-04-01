@@ -240,8 +240,10 @@ module.exports.commentQuestion = function(request,response) {
 							message : request.body.message	
 						});
 						question.save();
-						question.populate('comments.user', '-password -token');	
-						utils.httpResponse(response, 200, 'Comment successfully added', question.comments)
+						question.populate('comments.user', '-password -token')
+						.exec(function(err, obj){
+							utils.httpResponse(response, 200, 'Comment successfully added', obj.comments)
+						})	
 					} else {
 						utils.httpResponse(response,500,err)
 					}
