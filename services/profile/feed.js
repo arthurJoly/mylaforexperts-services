@@ -284,9 +284,8 @@ module.exports.getQuestionComment = function(request,response) {
 		.exec(function(err, obj){
 			if(err){
 				utils.httpResponse(response,404,'Question not found')
-			}
-			else{
-				utils.httpResponse(response,200,'Question successfully found',obj.comments)
+			}else{
+				utils.httpResponse(response,200,'Question comments successfully found',obj)
 			}				
 		})
 }
@@ -296,10 +295,9 @@ module.exports.getValidationComment = function(request,response) {
 		.populate('comments.user', '-password -token')
 		.exec(function(err, obj){
 			if(err){
-				utils.httpResponse(response,404,'Question not found')
-			}
-			else{
-				utils.httpResponse(response,200,'Question successfully found',obj.comments)
+				utils.httpResponse(response,404,'Validation not found')
+			}else{
+				utils.httpResponse(response,200,'Validation comments successfully found',obj)
 			}				
 		})
 }
