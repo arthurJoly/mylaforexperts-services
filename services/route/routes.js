@@ -134,10 +134,17 @@ app.get('/patient/specific', function(request, response) {
 })
 
 /**
-* Get specific patient
+* Get comment list of a question
 */
 app.get('/question/comment', function(request, response) {
 	feed.getQuestionComment(request,response);
+})
+
+/**
+* Get comment list of a validation
+*/
+app.get('/validation/comment', function(request, response) {
+	feed.getValidationComment(request,response);
 })
 
 //---------------------------------------------

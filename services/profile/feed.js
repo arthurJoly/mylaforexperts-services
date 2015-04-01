@@ -286,7 +286,21 @@ module.exports.getQuestionComment = function(request,response) {
 				utils.httpResponse(response,404,'Question not found')
 			}
 			else{
-				utils.httpResponse(response,200,'Question successfully found',obj)
+				utils.httpResponse(response,200,'Question successfully found',obj.comments)
 			}				
 		})
 }
+
+module.exports.getValidationComment = function(request,response) {
+	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
+		.populate('comments.user', '-password -token')
+		.exec(function(err, obj){
+			if(err){
+				utils.httpResponse(response,404,'Question not found')
+			}
+			else{
+				utils.httpResponse(response,200,'Question successfully found',obj.comments)
+			}				
+		})
+}
+
