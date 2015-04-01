@@ -285,7 +285,7 @@ module.exports.getQuestionComment = function(request,response) {
 			if(err){
 				utils.httpResponse(response,404,'Question not found')
 			}else{
-				utils.httpResponse(response,200,'Question comments successfully found',obj)
+				utils.httpResponse(response,200,'Question comments successfully found',obj.comments)
 			}				
 		})
 }
@@ -297,7 +297,7 @@ module.exports.getValidationComment = function(request,response) {
 			if(err){
 				utils.httpResponse(response,404,'Validation not found')
 			}else{
-				utils.httpResponse(response,200,'Validation comments successfully found',obj)
+				utils.httpResponse(response,200,'Validation comments successfully found',obj.comments)
 			}				
 		})
 }
