@@ -226,5 +226,28 @@ module.exports.answerValidation = function(request,response) {
 	});
 }
 
-
-
+module.exports.commentQuestion = function(request,response) {
+	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
+		if(err){
+			utils.httpResponse(response,500,'Could not add comment')
+		} else {
+			if (question) {
+				User.findOne({token : request.session.userToken}, function(err,owner){
+					if(!err){				
+						question.comments.push({
+							date : request.body.date,
+							user : owner._id,
+							message : request.body.message	
+						});
+						question.save();
+						utils.httpResponse(response, 200, 'Comment successfully added')
+					} else {
+						utils.httpResponse(response,500,err)
+					}
+				});				
+			} else{
+				utils.httpResponse(response, 404, 'Question not found')
+			}
+		}		
+	});
+}

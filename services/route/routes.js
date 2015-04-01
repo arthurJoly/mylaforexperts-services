@@ -145,8 +145,15 @@ app.put('/question/answer', function(request, response) {
 })
 
 /**
-* Update a question
+* Update a validation
 */
 app.put('/validation/answer', function(request, response) {
 	feed.answerValidation(request,response);
+})
+
+/**
+* Add a comment to a question
+*/
+app.put('/question/comment', function(request, response) {
+	feed.commentQuestion(request,response);
 })
