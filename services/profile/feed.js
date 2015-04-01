@@ -240,7 +240,7 @@ module.exports.commentQuestion = function(request,response) {
 							message : request.body.message	
 						});
 						question.save();
-						utils.httpResponse(response, 200, 'Comment successfully added')
+						utils.httpResponse(response, 200, 'Comment successfully added', question.comments)
 					} else {
 						utils.httpResponse(response,500,err)
 					}
