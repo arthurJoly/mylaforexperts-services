@@ -19,7 +19,8 @@ function AbstractFeedSchema(){
 	mongoose.Schema.apply(this, arguments);
 	
 	this.add({
-		date : String,
+		//date : String,
+		date : {type: Date, default: Date.now},
 		answered : Boolean,
 		sample : {type : mongoose.Schema.Types.ObjectId, ref : 'Sample'},
 		comments : [{
