@@ -77,7 +77,7 @@ module.exports.createValidation = function(request,response) {
 }
 
 module.exports.feedOverview = function(request,response) {
-	Feed.find({answered : false}, '-__v')
+	Feed.find({ $or:[{answered : false}, {validateState : false}] }, '-__v')
 			.sort({date: 'ascending'})
 			.populate('sample', 'specimenType environmentType result')
 			.exec(function(err, questions){
@@ -105,7 +105,7 @@ module.exports.questionOverview = function(request,response) {
 }
 
 module.exports.validationOverview = function(request,response) {
-	Validation.find({answered : false}, '-__v')
+	Validation.find({ $or:[{answered : false}, {validateState : false}] }, '-__v')
 			.sort({date: 'ascending'})
 			.populate('sample', 'specimenType environmentType result')	
 			.exec(function(err, questions){
@@ -120,6 +120,7 @@ module.exports.validationOverview = function(request,response) {
 
 module.exports.questionHistory = function(request,response) {
 	Question.find({answered : true}, '-__v')
+			.sort({date: 'ascending'})
 			.populate('sample', 'specimenType environmentType')
 			.exec(function(err, questions){
 				if (err){
