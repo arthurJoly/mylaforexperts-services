@@ -25,7 +25,6 @@ var COLLAPSE_KEY_VALIDATION = 'validation_key'
 module.exports.createQuestion = function(request,response) {
 	var question = new Question({
 		text : request.body.text,
-		//date : request.body.date,
 		answered : false,
 		sample : request.body.sample
 	});
@@ -48,7 +47,6 @@ module.exports.createQuestion = function(request,response) {
 module.exports.createValidation = function(request,response) {
 	var validation = new Validation({
 		validateState : false,
-		//date : request.body.date,
 		answered : false,
 		sample : request.body.sample	
 	});
@@ -208,7 +206,6 @@ module.exports.answerValidation = function(request,response) {
 						validation.validateState = request.body.validateState;
 						
 						validation.comments.push({
-							date : request.body.date,
 							user : owner._id,
 							message : request.body.message	
 						});
@@ -235,7 +232,6 @@ module.exports.commentQuestion = function(request,response) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
 					if(!err){				
 						question.comments.push({
-							date : request.body.date,
 							user : owner._id,
 							message : request.body.message	
 						});
@@ -261,7 +257,6 @@ module.exports.commentValidation = function(request,response) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
 					if(!err){				
 						validation.comments.push({
-							date : request.body.date,
 							user : owner._id,
 							message : request.body.message	
 						});
