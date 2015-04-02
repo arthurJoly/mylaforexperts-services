@@ -77,11 +77,11 @@ module.exports.createValidation = function(request,response) {
 }
 
 module.exports.feedOverview = function(request,response) {
+	//Feed.find({__t : Question}, '-__v -comments')
 	Feed.find({ $or:[
 	{ $and:[{answered : false},{__t : "Question"}]}, 
-	{ $and:[{$or:[{validateState : false},{answered : false}]},{__t : "Validation""}]} ]
+	{ $and:[{$or:[{validateState : false},{answered : false}]},{__t : "Validation"}]} ]
 	}, '-__v -comments')
-	//Feed.find({__t : Question}, '-__v -comments')
 			.sort({date: 'ascending'})
 			.populate('sample', 'specimenType environmentType result')
 			.exec(function(err, questions){
