@@ -78,6 +78,7 @@ module.exports.createValidation = function(request,response) {
 
 module.exports.feedOverview = function(request,response) {
 	Feed.find({answered : false}, '-__v')
+			.sort({date: 'descending'})
 			.populate('sample', 'specimenType environmentType result')
 			.exec(function(err, questions){
 				if (err){
@@ -91,6 +92,7 @@ module.exports.feedOverview = function(request,response) {
 
 module.exports.questionOverview = function(request,response) {
 	Question.find({answered : false}, '-__v')
+			.sort({date: 'descending'})
 			.populate('sample', 'specimenType environmentType')
 			.exec(function(err, questions){
 				if (err){
@@ -104,7 +106,8 @@ module.exports.questionOverview = function(request,response) {
 
 module.exports.validationOverview = function(request,response) {
 	Validation.find({answered : false}, '-__v')
-			.populate('sample', 'specimenType environmentType result')
+			.sort({date: 'descending'})
+			.populate('sample', 'specimenType environmentType result')	
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
@@ -135,8 +138,7 @@ module.exports.specificQuestion = function(request,response) {
 		.exec(function(err, obj){
 			if(err){
 				utils.httpResponse(response,404,'Question not found')
-			}
-			else{
+			}else{
 				obj.sample.populate('patient', function(err){
 					if(err){
 						utils.httpResponse(response,500,'Internal error')
