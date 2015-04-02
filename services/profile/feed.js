@@ -207,7 +207,10 @@ module.exports.answerValidation = function(request,response) {
 						validation.answered = true;			
 						validation.validateState = request.body.validateState;
 						
+						var commentDate = new Date();
+						
 						validation.comments.push({
+							date : commentDate,
 							user : owner._id,
 							message : request.body.message	
 						});
@@ -232,9 +235,11 @@ module.exports.commentQuestion = function(request,response) {
 		}else {
 			if (question) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
-					if(!err){				
+					if(!err){		
+						var commentDate = new Date();
+					
 						question.comments.push({
-							date : Date.now,
+							date : commentDate,
 							user : owner._id,
 							message : request.body.message	
 						});
@@ -258,9 +263,11 @@ module.exports.commentValidation = function(request,response) {
 		} else {
 			if (validation) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
-					if(!err){				
+					if(!err){		
+						var commentDate = new Date();	
+						
 						validation.comments.push({
-							date : Date.now,
+							date : commentDate,
 							user : owner._id,
 							message : request.body.message	
 						});
