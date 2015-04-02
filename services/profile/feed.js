@@ -229,11 +229,12 @@ module.exports.commentQuestion = function(request,response) {
 	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
 		if(err){
 			utils.httpResponse(response,500,'Could not add comment')
-		} else {
+		}else {
 			if (question) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
 					if(!err){				
 						question.comments.push({
+							date : Date.now,
 							user : owner._id,
 							message : request.body.message	
 						});
@@ -259,6 +260,7 @@ module.exports.commentValidation = function(request,response) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
 					if(!err){				
 						validation.comments.push({
+							date : Date.now,
 							user : owner._id,
 							message : request.body.message	
 						});
