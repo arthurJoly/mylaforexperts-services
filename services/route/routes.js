@@ -127,6 +127,13 @@ app.get('/sample/petridish/specific', function(request, response) {
 })
 
 /**
+* Get all patient
+*/
+app.get('/patient/overview', function(request, response) {
+	patient.patientOverview(request,response);
+})
+
+/**
 * Get specific patient
 */
 app.get('/patient/specific', function(request, response) {

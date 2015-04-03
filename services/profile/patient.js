@@ -22,6 +22,15 @@ module.exports.createPatient = function(request,response) {
 	});
 }
 
+module.exports.patientOverview = function(request,response) {
+	 Patient.find({},'-__v',function(err, patients){
+		if (err)
+			utils.httpResponse(response,404,err)
+		else
+			utils.httpResponse(response,200,'Patients successfully found',patients)
+	});
+}
+
 module.exports.specificPatient = function(request,response) {
 	Patient.findById(mongoose.Types.ObjectId(request.query.patientId),function(err, obj){
 		if (obj)
