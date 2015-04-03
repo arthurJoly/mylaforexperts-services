@@ -11,8 +11,7 @@ module.exports.createPatient = function(request,response) {
 			age : request.body.age,
 			sex : request.body.sex,
 			size : request.body.size,
-			weight : request.body.weight,
-			samples : request.body.samples
+			weight : request.body.weight
 	});
 
 	patient.save(function(err) {

@@ -113,8 +113,7 @@ var patientSchema = mongoose.Schema({
 	age : Number,
 	sex : Number,
 	size : Number,
-	weight : Number,
-	samples : [{type : mongoose.Schema.Types.ObjectId, ref : 'Sample'}]
+	weight : Number
 });
 
 //---- REGISTRATION ----
