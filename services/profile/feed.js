@@ -5,6 +5,7 @@ var Validation = require(__base + 'services/database/model.js').Validation
 var Sample = require(__base + 'services/database/model.js').Sample
 var PetriDishSample = require(__base + 'services/database/model.js').PetriDishSample
 var ValidationSample = require(__base + 'services/database/model.js').ValidationSample
+var Patient= require(__base + 'services/database/model.js').Patient
 
 var uuid = require('node-uuid')
 var hashMap = require('hashmap')
@@ -198,34 +199,48 @@ module.exports.answerQuestion = function(request,response) {
 }
 
 module.exports.answerValidation = function(request,response) {
-	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.validationId)}, function (err, validation) {
-		if(err){
-			utils.httpResponse(response,500,'Could not modify validation')
-		} else {
-			if (validation) {
-				User.findOne({token : request.session.userToken}, function(err,owner){
-					if(!err){
-						validation.answered = true;			
-						validation.validateState = request.body.validateState;
-						
-						var commentDate = new Date();
-						
-						validation.comments.push({
-							date : commentDate,
-							user : owner._id,
-							message : request.body.message	
-						});
-						validation.save();
-						utils.httpResponse(response, 200, 'Validation successfully modified')
-					} else {
-						utils.httpResponse(response,500,err)
-					}
+	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
+		.populate('sample')
+		.exec(function(err, validation){
+			if(err){
+				utils.httpResponse(response,500,'Could not modify validation')
+			} else {
+				if (validation) {
+					User.findOne({token : request.session.userToken}, function(err,owner){
+						if(!err){
+							validation.answered = true;			
+							validation.validateState = request.body.validateState;
+							
+							var currentDate = new Date();
+							
+							validation.comments.push({
+								date : currentDate,
+								user : owner._id,
+								message : request.body.message	
+							});
+							validation.save();
+							
+							if(validation.validateState){
+								Patient.findById(validation.sample.patient,function(err, obj){
+									obj.results.push({
+										date : currentDate,
+										name : validation.sample.result.finalGerm.name,
+										pathogenStatus : validation.sample.result.finalGerm.pathogenStatus
+									})
+									obj.save();
+								});
+							}
+							
+							utils.httpResponse(response, 200, 'Validation successfully modified')
+						} else {
+							utils.httpResponse(response,500,err)
+						}
 
-				});				
-			} else{
-				utils.httpResponse(response, 404, 'Validation not found')
-			}
-		}		
+					});				
+				} else{
+					utils.httpResponse(response, 404, 'Validation not found')
+				}
+			}		
 	});
 }
 

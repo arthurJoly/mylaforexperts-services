@@ -113,7 +113,12 @@ var patientSchema = mongoose.Schema({
 	age : Number,
 	sex : Number,
 	size : Number,
-	weight : Number
+	weight : Number,
+	results : [{
+		date : {type: Date, default: Date.now},
+		name : String,
+		pathogenStatus : Number
+	}]
 });
 
 //---- REGISTRATION ----
