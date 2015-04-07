@@ -199,7 +199,7 @@ module.exports.answerQuestion = function(request,response) {
 }
 
 module.exports.answerValidation = function(request,response) {
-	Validation.findById(mongoose.Types.ObjectId(request.query.validationId))
+	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)})
 		.populate('sample')
 		.exec(function(err, validation){
 			if(err){
