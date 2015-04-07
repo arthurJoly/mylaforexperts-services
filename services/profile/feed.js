@@ -220,7 +220,7 @@ module.exports.answerValidation = function(request,response) {
 							});
 							validation.save();
 							
-							if(validation.validateState){
+							/*if(validation.validateState){
 								Patient.findById(validation.sample.patient,function(err, obj){
 									obj.results.push({
 										date : currentDate,
@@ -229,7 +229,7 @@ module.exports.answerValidation = function(request,response) {
 									})
 									obj.save();
 								});
-							}
+							}*/
 							
 							utils.httpResponse(response, 200, 'Validation successfully modified')
 						} else {
