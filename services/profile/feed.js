@@ -199,7 +199,7 @@ module.exports.answerQuestion = function(request,response) {
 }
 
 module.exports.answerValidation = function(request,response) {
-	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.validationId)}, function (err, question) {
+	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.validationId)}, function (err, validation) {
 		if(err){
 			utils.httpResponse(response,500,'Could not modify validation')
 		} else {
@@ -217,8 +217,36 @@ module.exports.answerValidation = function(request,response) {
 							message : request.body.message	
 						});
 						validation.save();
-					
-						utils.httpResponse(response,200,'Validation successfully found',validation)																				
+						
+						/*if(validation.validateState){
+							Patient.findById(validation.sample.patient,function(err, obj){
+								obj.results.push({
+									date : currentDate,
+									name : validation.sample.result.finalGerm.name,
+									pathogenStatus : validation.sample.result.finalGerm.pathogenStatus
+								})
+								obj.save();
+							});
+						}*/
+						if(validation.validateState){
+							validation.populate('sample', function(err){
+								if(err){
+									utils.httpResponse(response,500,'POPULATE : Internal error')
+								}else{
+									Patient.findById(validation.sample.patient,function(err, obj){
+										obj.results.push({
+											date : currentDate,
+											name : validation.sample.result.finalGerm.name,
+											pathogenStatus : validation.sample.result.finalGerm.pathogenStatus
+										})
+										obj.save();
+									});
+									utils.httpResponse(response,200,'POPULATE Validation successfully found',validation)
+								}
+							})
+						}else{
+							utils.httpResponse(response,200,'Validation successfully found',validation)
+						}																
 					} else {
 						utils.httpResponse(response,500,err)
 					}
