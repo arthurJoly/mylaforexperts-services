@@ -333,7 +333,7 @@ module.exports.getValidationComment = function(request,response) {
 		})
 }
 
-function refreshComment(String id){
+function refreshComment(id){
 	var hashmapMessage = new hashMap.HashMap()
 	hashmapMessage.set(NOTIFICATION_OBJECT_ID,id)
 	hashmapMessage.set(NOTIFICATION_COMMENT,id)
