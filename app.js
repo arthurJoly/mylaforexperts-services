@@ -18,8 +18,6 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
-var httpServer = require('http');
-var ioSocket = require('socket.io');
 
 var app = express();
 
@@ -45,20 +43,6 @@ app.listen(app.get('port'), function() {
 	console.log("Node app is running at localhost:" + app.get('port'))
 })
 
-//Socket for chat
-var server = httpServer.Server(app);
-var io = ioSocket(server);
-io.on('connection', function(client){
-    client.on("new message", function(chatMessage){
-
-        io.emit("new message", {"fromName" : chatMessage.fromName,
-                                "toName" : chatMessage.toName,
-                                "toClientID" : chatMessage.toClientID,
-                                "msg" : chatMessage.msg});
-	});
-})
- 
- 
 
 /**
 * Local modules
