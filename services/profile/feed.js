@@ -19,6 +19,7 @@ var NOTIFICATION_OBJECT_ID = 'objectID'
 var NOTIFICATION_GERM_NAME = 'germName'
 var NOTIFICATION_GERM_CONFIDENCE = 'germConfidence'
 var NOTIFICATION_GERM_PATHOGEN_STATUS = 'germPathogenStatus'
+var NOTIFICATION_COMMENT = 'comment'
 var COLLAPSE_KEY_COMMENT = 'comment_key'
 var COLLAPSE_KEY_QUESTION = 'question_key'
 var COLLAPSE_KEY_VALIDATION = 'validation_key'
@@ -335,6 +336,7 @@ module.exports.getValidationComment = function(request,response) {
 function refreshComment(String id){
 	var hashmapMessage = new hashMap.HashMap()
 	hashmapMessage.set(NOTIFICATION_OBJECT_ID,id)
+	hashmapMessage.set(NOTIFICATION_COMMENT,id)
 	
 	notification.sendNotification(hashmapMessage, COLLAPSE_KEY_COMMENT)
 }
