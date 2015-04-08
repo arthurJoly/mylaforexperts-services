@@ -19,6 +19,7 @@ var NOTIFICATION_OBJECT_ID = 'objectID'
 var NOTIFICATION_GERM_NAME = 'germName'
 var NOTIFICATION_GERM_CONFIDENCE = 'germConfidence'
 var NOTIFICATION_GERM_PATHOGEN_STATUS = 'germPathogenStatus'
+var COLLAPSE_KEY_COMMENT = 'comment_key'
 var COLLAPSE_KEY_QUESTION = 'question_key'
 var COLLAPSE_KEY_VALIDATION = 'validation_key'
 
@@ -216,6 +217,7 @@ module.exports.answerValidation = function(request,response) {
 							user : owner._id,
 							message : request.body.message	
 						});
+						refreshComment(validation._id);	
 						validation.save();
 						
 						if(validation.validateState){
@@ -263,7 +265,8 @@ module.exports.commentQuestion = function(request,response) {
 							user : owner._id,
 							message : request.body.message	
 						});
-						question.save();	
+						question.save();
+						refreshComment(question._id);						
 						utils.httpResponse(response,200,'Comment successfully added')
 					} else {
 						utils.httpResponse(response,500,err)
@@ -292,6 +295,7 @@ module.exports.commentValidation = function(request,response) {
 							message : request.body.message	
 						});
 						validation.save();
+						refreshComment(validation._id);
 						utils.httpResponse(response, 200, 'Comment successfully added')
 					} else {
 						utils.httpResponse(response,500,err)
@@ -327,4 +331,12 @@ module.exports.getValidationComment = function(request,response) {
 			}				
 		})
 }
+
+function refreshComment(String id){
+	var hashmapMessage = new hashMap.HashMap()
+	hashmapMessage.set(NOTIFICATION_OBJECT_ID,id)
+	
+	notification.sendNotification(hashmapMessage, COLLAPSE_KEY_COMMENT)
+}
+
 
