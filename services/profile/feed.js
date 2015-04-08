@@ -218,20 +218,10 @@ module.exports.answerValidation = function(request,response) {
 						});
 						validation.save();
 						
-						/*if(validation.validateState){
-							Patient.findById(validation.sample.patient,function(err, obj){
-								obj.results.push({
-									date : currentDate,
-									name : validation.sample.result.finalGerm.name,
-									pathogenStatus : validation.sample.result.finalGerm.pathogenStatus
-								})
-								obj.save();
-							});
-						}*/
 						if(validation.validateState){
 							validation.populate('sample', function(err){
 								if(err){
-									utils.httpResponse(response,500,'POPULATE : Internal error')
+									utils.httpResponse(response,500,'Internal error')
 								}else{
 									Patient.findById(validation.sample.patient,function(err, obj){
 										obj.results.push({
@@ -241,11 +231,11 @@ module.exports.answerValidation = function(request,response) {
 										})
 										obj.save();
 									});
-									utils.httpResponse(response,200,'POPULATE Validation successfully found',validation)
+									utils.httpResponse(response,200,'Validation successfully answered',validation)
 								}
 							})
 						}else{
-							utils.httpResponse(response,200,'Validation successfully found',validation)
+							utils.httpResponse(response,200,'Validation successfully answered',validation)
 						}																
 					} else {
 						utils.httpResponse(response,500,err)

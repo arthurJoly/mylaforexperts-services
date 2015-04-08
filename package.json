@@ -18,7 +18,8 @@
 		"node-gcm": "^0.9.15",
 		"hashmap": "^2.0.1",
 		"ws": "0.4.x",
-		"owl-deepcopy": "~0.0.1"
+		"owl-deepcopy": "~0.0.1",
+		"socket.io" : "~1.3.5"
 	},
 	"engines": {
 		"node": "0.10.x"

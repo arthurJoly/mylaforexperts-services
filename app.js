@@ -5,12 +5,10 @@ global.__base = __dirname + '/'
 bunyan = require('bunyan');
 log = bunyan.createLogger({
 	name: 'mfe_webservices',
-	streams: [
-	{
+	streams: [{
 		stream: process.stdout ,
 		level: 'trace'
-	}
-	]
+	}]
 });
 
 /**
@@ -20,6 +18,8 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var httpServer = require('http');
+var ioSocket = require('socket.io');
 
 var app = express();
 
@@ -44,6 +44,21 @@ app.use(express.static(__dirname + '/public'))
 app.listen(app.get('port'), function() {
 	console.log("Node app is running at localhost:" + app.get('port'))
 })
+
+//Socket for chat
+var server = httpServer.Server(app);
+var io = ioSocket(server);
+io.on('connection', function(client){
+    client.on("new message", function(chatMessage){
+
+        io.emit("new message", {"fromName" : chatMessage.fromName,
+                                "toName" : chatMessage.toName,
+                                "toClientID" : chatMessage.toClientID,
+                                "msg" : chatMessage.msg});
+	});
+})
+ 
+ 
 
 /**
 * Local modules
