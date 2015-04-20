@@ -38,4 +38,27 @@ function httpResponse(response,code,description,content) {
 }
 
 
+/**
+ * Restrict function. Check if the user is log in.
+ * @param req
+ * @param res
+ * @param next
+ */
+function restrict(req, res, next) {
+    if (req.session.userToken) {
+        User.findOne({token : req.session.userToken}, function(err, obj) {
+            if (obj) {
+                next()
+            }
+            else {
+                httpResponse(response,500,'Hike not found')
+            }
+        });
+    } else {
+        httpResponse(res,403,'Access denied !')
+    }
+}
+
+
 module.exports.httpResponse = httpResponse
+module.exports.restrict = restrict

@@ -70,6 +70,14 @@ app.post('/notification/registration/create', function(request, response) {
 //---------------------------------------------
 //------------------- GET ---------------------
 //---------------------------------------------
+
+/**
+ * Logout an user
+ */
+app.get('/user/logout', restrict, function(request, response) {
+    user.logoutUser(request,response);
+})
+
 /**
 * Get all feeds
 */

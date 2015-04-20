@@ -48,3 +48,9 @@ function loginUser(user,request,response) {
 		}
 	});
 }
+
+module.exports.logoutUser = function(request,response) {
+    request.session.destroy(function(){
+        utils.httpResponse(response,200,'Successfully logout')
+    });
+}
