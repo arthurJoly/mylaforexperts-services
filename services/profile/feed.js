@@ -138,16 +138,16 @@ module.exports.questionHistory = function(request,response) {
 module.exports.questionHistorySearch = function(request,response) {
 	Question.find({answered : true}, '-__v -comments')
 			.sort({date: 'ascending'})
-			.populate('sample', 'environmentType')
+			.populate('sample', 'specimenType environmentType')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
 				} else{
 					function filterQuestion(question){
-						return question.sample.specimenType == request.query.specimenType;
+						return question.sample.specimenType == mongoose.Types.Number(request.query.specimenType);
 					}
 					var questionsFiltered = questions.filter(filterQuestion);
-					utils.httpResponse(response,200,'Questions successfully found',questions)
+					utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
 				}
 			})
 }
