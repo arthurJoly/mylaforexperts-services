@@ -144,7 +144,7 @@ module.exports.questionHistorySearch = function(request,response) {
 					utils.httpResponse(response,404,err)
 				} else{
 					function filterQuestion(value){
-						return value.sample.specimenType == request.query.specimenType;
+						return value.sample.specimenType == mongoose.Types.Number(request.query.specimenType);
 					}
 					var questionsFiltered = questions.filter(filterQuestion);
 					utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
