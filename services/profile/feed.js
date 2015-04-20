@@ -138,13 +138,16 @@ module.exports.questionHistory = function(request,response) {
 module.exports.questionHistorySearch = function(request,response) {
 	Question.find({answered : true}, '-__v -comments')
 			.sort({date: 'ascending'})
-			.populate('sample', 'specimenType environmentType' , { specimenType : request.query.specimenType })
+			.populate('sample', 'environmentType')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
-				}		
-				else{
-					utils.httpResponse(response,200,'Questions successfully found',questions)
+				} else{
+					function filterQuestion(value){
+						return value.sample.specimenType == request.query.specimenType;
+					}
+					var questionsFiltered = questions.filter(filterQuestion);
+					utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
 				}
 			})
 }
