@@ -135,6 +135,20 @@ module.exports.questionHistory = function(request,response) {
 			})
 }
 
+module.exports.questionHistorySearch = function(request,response) {
+	Question.find({answered : true}, '-__v -comments')
+			.sort({date: 'ascending'})
+			.populate('sample', 'specimenType environmentType' , { specimenType : request.query.specimenType })
+			.exec(function(err, questions){
+				if (err){
+					utils.httpResponse(response,404,err)
+				}		
+				else{
+					utils.httpResponse(response,200,'Questions successfully found',questions)
+				}
+			})
+}
+
 module.exports.specificQuestion = function(request,response) {
 	Question.findById(mongoose.Types.ObjectId(request.query.questionId))
 		.populate('sample')

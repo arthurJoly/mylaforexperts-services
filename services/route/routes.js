@@ -115,6 +115,13 @@ app.get('/question/history', function(request, response) {
 })
 
 /**
+* Get questions that have been answered given some criteria
+*/
+app.get('/question/history/search', function(request, response) {
+	feed.questionHistorySearch(request,response);
+})
+
+/**
 * Get specific question
 */
 app.get('/question/specific', function(request, response) {
