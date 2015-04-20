@@ -1,4 +1,5 @@
 var app = require(__base + 'app.js').app
+var restrict = require(__base + 'services/utils/utils.js').restrict
 
 var user = require(__base + 'services/profile/user.js')
 var feed = require(__base + 'services/profile/feed.js')
