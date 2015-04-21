@@ -145,16 +145,18 @@ module.exports.questionHistorySearch = function(request,response) {
 				if (err){
 					utils.httpResponse(response,404,err)
 				} else{	
-					async.each(questions, function(aQuestion){
-						Sample.populate(aQuestion.sample, 'patient')
-					}, function(err, results){
+					async.each(questions, function(aQuestion, callback){
+						Sample.populate(aQuestion.sample, 'patient', function(err){
+							callback();
+						})
+					}, function(err){
 						function filterQuestion(question){
 						return (typeof request.query.environmentType === 'undefined' && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') 
 								|| (question.sample.environmentType == request.query.environmentType && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.environmentType == request.query.environmentType && question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType !== 'undefined' && typeof request.query.specimenType !== 'undefined');
 						}
-						var questionsFiltered = results.filter(filterQuestion);
+						var questionsFiltered = questions.filter(filterQuestion);
 						utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
 					})
 					
