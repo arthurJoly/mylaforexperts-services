@@ -143,13 +143,13 @@ module.exports.questionHistorySearch = function(request,response) {
 				if (err){
 					utils.httpResponse(response,404,err)
 				} else{		
-					for(var aQuestion in questions){
+					questions.forEach(function(aQuestion){
 						aQuestion.sample.populate('patient', function(err){
 							if(err){
 								utils.httpResponse(response,500,'Internal error')
 							}
 						})
-					}
+					})
 					function filterQuestion(question){
 						return (typeof request.query.environmentType === 'undefined' && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') 
