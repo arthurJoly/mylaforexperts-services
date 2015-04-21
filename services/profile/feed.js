@@ -144,7 +144,7 @@ module.exports.questionHistorySearch = function(request,response) {
 					utils.httpResponse(response,404,err)
 				} else{		
 					questions.forEach(function(aQuestion){
-						aQuestion.sample.populate('patient', function(err){
+						aQuestion.populate('sample.patient', function(err){
 							if(err){
 								utils.httpResponse(response,500,'Internal error')
 							}
