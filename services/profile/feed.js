@@ -144,31 +144,17 @@ module.exports.questionHistorySearch = function(request,response) {
 				if (err){
 					utils.httpResponse(response,404,err)
 				} else{	
-					Sample.populate(questions.sample,'patient', function(obj, err){
-						function filterQuestion(question){
-						return (typeof request.query.environmentType === 'undefined' && typeof request.query.specimenType === 'undefined') 
-								|| (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') 
-								|| (question.sample.environmentType == request.query.environmentType && typeof request.query.specimenType === 'undefined') 
-								|| (question.sample.environmentType == request.query.environmentType && question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType !== 'undefined' && typeof request.query.specimenType !== 'undefined');
-						}
-						var questionsFiltered = obj.filter(filterQuestion);
-						utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
+					questions.forEach(function(aQuestion){
+						Sample.populate(aQuestion.sample, 'patient')
 					})
-					/*questions.forEach(function(aQuestion){
-						aQuestion.sample.populate('patient', function(err){
-							if(err){
-								utils.httpResponse(response,500,'Internal error')
-							}
-						})
-					})*/
-					/*function filterQuestion(question){
+					function filterQuestion(question){
 						return (typeof request.query.environmentType === 'undefined' && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') 
 								|| (question.sample.environmentType == request.query.environmentType && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.environmentType == request.query.environmentType && question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType !== 'undefined' && typeof request.query.specimenType !== 'undefined');
 					}
 					var questionsFiltered = questions.filter(filterQuestion);
-					utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)*/
+					utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
 				}
 			})
 }
