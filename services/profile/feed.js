@@ -144,7 +144,7 @@ module.exports.questionHistorySearch = function(request,response) {
 					utils.httpResponse(response,404,err)
 				} else{
 					function filterQuestion(question){
-						return (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') || (question.sample.environmentType == request.query.environmentType && typeof request.query.specimenType === 'undefined') || (question.sample.environmentType == request.query.environmentType && question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType !== 'undefined' && typeof request.query.specimenType !== 'undefined');
+						return (typeof request.query.environmentType === 'undefined' && typeof request.query.specimenType === 'undefined') || (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') || (question.sample.environmentType == request.query.environmentType && typeof request.query.specimenType === 'undefined') || (question.sample.environmentType == request.query.environmentType && question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType !== 'undefined' && typeof request.query.specimenType !== 'undefined');
 					}
 					var questionsFiltered = questions.filter(filterQuestion);
 					utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
