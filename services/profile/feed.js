@@ -8,6 +8,7 @@ var ValidationSample = require(__base + 'services/database/model.js').Validation
 var Patient= require(__base + 'services/database/model.js').Patient
 
 var uuid = require('node-uuid')
+var async = require('async')
 var hashMap = require('hashmap')
 var utils = require(__base + 'services/utils/utils.js')
 var notification = require(__base + 'services/utils/notification.js')
@@ -144,17 +145,19 @@ module.exports.questionHistorySearch = function(request,response) {
 				if (err){
 					utils.httpResponse(response,404,err)
 				} else{	
-					questions.forEach(function(aQuestion){
+					async.each(questions, function(aQuestion){
 						Sample.populate(aQuestion.sample, 'patient')
-					})
-					function filterQuestion(question){
+					}, function(err, results){
+						function filterQuestion(question){
 						return (typeof request.query.environmentType === 'undefined' && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') 
 								|| (question.sample.environmentType == request.query.environmentType && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.environmentType == request.query.environmentType && question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType !== 'undefined' && typeof request.query.specimenType !== 'undefined');
-					}
-					var questionsFiltered = questions.filter(filterQuestion);
-					utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
+						}
+						var questionsFiltered = results.filter(filterQuestion);
+						utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
+					})
+					
 				}
 			})
 }
