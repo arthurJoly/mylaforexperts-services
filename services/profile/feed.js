@@ -143,7 +143,7 @@ module.exports.questionHistorySearch = function(request,response) {
 				if (err){
 					utils.httpResponse(response,404,err)
 				} else{
-					questions.populate('patient.age patient.sex', function(err){
+					questions.sample.populate('patient', 'age sex', function(err){
 						if(err){
 							utils.httpResponse(response,500,'Internal error')
 						}else{
