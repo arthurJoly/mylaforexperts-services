@@ -147,7 +147,7 @@ module.exports.questionHistorySearch = function(request,response) {
 				} else{	
 					//Call asyn each in order to wait for the population to be complete before returning the questions to the client
 					async.each(questions, function(aQuestion, callback){
-						Sample.populate(aQuestion.sample, 'patient.age patient.sex', function(err){
+						Sample.populate(aQuestion.sample, 'patient', function(err){
 							callback();
 						})
 					}, function(err){
@@ -160,8 +160,10 @@ module.exports.questionHistorySearch = function(request,response) {
 						var questionsFilteredOnSample = questions.filter(filterQuestionOnSample);
 						
 						function filterQuestionOnPatient(question){
-							return (typeof request.query.sex === 'undefined')
-									|| (question.sample.patient.sex == request.query.sex);
+							return (typeof request.query.sex === 'undefined' && typeof request.query.age === 'undefined')
+									|| (question.sample.patient.sex == request.query.sex && typeof request.query.age === 'undefined')
+									|| (question.sample.patient.age == request.query.age && typeof request.query.sex === 'undefined')
+									|| (question.sample.patient.age == request.query.age && question.sample.patient.sex == request.query.sex);
 						}
 						
 						var questionsFiltered = questionsFilteredOnSample.filter(filterQuestionOnPatient);
