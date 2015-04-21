@@ -139,17 +139,18 @@ module.exports.questionHistorySearch = function(request,response) {
 	Question.find({answered : true}, '-__v -comments')
 			.sort({date: 'ascending'})
 			.populate('sample', 'specimenType environmentType patient')
+			.populate('sample.patient')
 			.exec(function(err, questions){
 				if (err){
 					utils.httpResponse(response,404,err)
 				} else{		
-					forEach(questions, function(aQuestion){
+					/*questions.forEach(function(aQuestion){
 						aQuestion.sample.populate('patient', function(err){
 							if(err){
 								utils.httpResponse(response,500,'Internal error')
 							}
 						})
-					})
+					})*/
 					function filterQuestion(question){
 						return (typeof request.query.environmentType === 'undefined' && typeof request.query.specimenType === 'undefined') 
 								|| (question.sample.specimenType == request.query.specimenType && typeof request.query.environmentType === 'undefined') 
