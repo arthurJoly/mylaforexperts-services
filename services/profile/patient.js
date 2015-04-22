@@ -8,6 +8,8 @@ var mongoose = require(__base + 'services/database/database.js').mongoose
 
 module.exports.createPatient = function(request,response) {
 	var patient = new Patient({
+			firstname : request.body.firstname,
+			lastname : request.body.lastname,
 			age : request.body.age,
 			sex : request.body.sex,
 			size : request.body.size,

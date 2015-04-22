@@ -110,6 +110,8 @@ var validationSampleSchema = new AbstractSampleSchema({
 //------ PATIENT -------
 //----------------------
 var patientSchema = mongoose.Schema({
+	firstname : String,
+	lastname : String,
 	age : Number,
 	sex : Number,
 	size : Number,
