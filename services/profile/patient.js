@@ -25,7 +25,7 @@ module.exports.createPatient = function(request,response) {
 }
 
 module.exports.patientOverview = function(request,response) {
-	 Patient.find({},'-__v -results',function(err, patients){
+	Patient.find({},'-__v -results',function(err, patients){
 		if (err)
 			utils.httpResponse(response,404,err)
 		else
@@ -39,5 +39,20 @@ module.exports.specificPatient = function(request,response) {
 			utils.httpResponse(response,200,'Patient successfully found',obj)
 		else
 			utils.httpResponse(response,404,'Patient not found')
+	});
+}
+
+module.exports.patientSearch = function(request,response) {
+	Patient.find({},'-__v -results',function(err, patients){
+		if (err){
+			utils.httpResponse(response,404,err)
+		}	
+		else{
+			function filterPatientOnName(patient){
+				return (patient.firstname == request.query.name || patient.lastname == request.query.name);				
+			}
+			var patientsFiltered = patients.filter(filterPatientOnName);
+			utils.httpResponse(response,200,'Patients successfully found',patientsFiltered)
+		}
 	});
 }

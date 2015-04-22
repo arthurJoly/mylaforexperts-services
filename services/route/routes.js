@@ -185,6 +185,13 @@ app.get('/patient/specific', function(request, response) {
 	patient.specificPatient(request,response);
 })
 
+/**
+* Get patients that have matched some criteria
+*/
+app.get('/patient/search', function(request, response) {
+	patient.patientSearch(request,response);
+})
+
 //---------------------------------------------
 //------------------- PUT ---------------------
 //---------------------------------------------
