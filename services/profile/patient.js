@@ -23,7 +23,7 @@ module.exports.createPatient = function(request,response) {
 }
 
 module.exports.patientOverview = function(request,response) {
-	 Patient.find({},'-__v',function(err, patients){
+	 Patient.find({},'-__v -results',function(err, patients){
 		if (err)
 			utils.httpResponse(response,404,err)
 		else
