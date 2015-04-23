@@ -56,3 +56,14 @@ module.exports.patientSearch = function(request,response) {
 		}
 	});
 }
+
+module.exports.patientGetNames = function(request,response) {
+	Patient.find({},'-__v -age -sex -size -weight -results',function(err, patients){
+		if (err){
+			utils.httpResponse(response,404,err)
+		}	
+		else{
+			utils.httpResponse(response,200,'Patients name successfully found',patients)
+		}
+	});
+}
