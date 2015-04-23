@@ -48,8 +48,14 @@ module.exports.patientSearch = function(request,response) {
 			utils.httpResponse(response,404,err)
 		}	
 		else{
+			if (typeof String.prototype.startsWith != 'function') {
+				String.prototype.startsWith = function (str){
+					return this.slice(0, str.length) == str;
+				};
+			}
+			
 			function filterPatientOnName(patient){
-				return (patient.firstname == request.query.name || patient.lastname == request.query.name);				
+				return (patient.firstname.toLowerCase().startsWith(request.query.name.toLowerCase()) || patient.lastname.toLowerCase().startsWith(request.query.name.toLowerCase));				
 			}
 			var patientsFiltered = patients.filter(filterPatientOnName);
 			utils.httpResponse(response,200,'Patients successfully found',patientsFiltered)
