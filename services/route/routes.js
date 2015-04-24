@@ -170,6 +170,13 @@ app.get('/sample/validation/specific', function(request, response) {
 	sample.specificValidationSample(request,response);
 })
 
+/**
+* Get samples that have matched some criteria
+*/
+app.get('/sample/search', function(request, response) {
+	sample.sampleSearch(request,response);
+})
+
 //------------ PATIENTS ---------------
 /**
 * Get all patient

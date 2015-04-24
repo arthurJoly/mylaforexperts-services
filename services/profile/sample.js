@@ -71,3 +71,13 @@ module.exports.specificValidationSample = function(request,response) {
 				utils.httpResponse(response,404,'Sample not found')
 		});
 }
+
+module.exports.patientSearch = function(request,response) {			
+	Sample.find({$or:[{specimenType : request.query.query},{environmentType : request.query.query}]},'-__v -patient',function(err, samples){
+		if (err){
+			utils.httpResponse(response,404,err)
+		}else{
+			utils.httpResponse(response,200,'Samples successfully found',samples)
+		}
+	});
+}
