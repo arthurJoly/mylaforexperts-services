@@ -73,7 +73,7 @@ module.exports.specificValidationSample = function(request,response) {
 }
 
 module.exports.sampleSearch = function(request,response) {			
-	Sample.find({$or:[{specimenType : request.query.query},{environmentType : request.query.query}]},'-__v -patient',function(err, samples){
+	Sample.find({$or:[{specimenType : request.query.specimenType},{environmentType : request.query.environmentType}]},'-__v -patient',function(err, samples){
 		if (err){
 			utils.httpResponse(response,404,err)
 		}else{
