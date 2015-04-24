@@ -56,7 +56,9 @@ module.exports.patientSearch = function(request,response) {
 			function filterPatientOnName(patient){
 				return (patient.firstname.toLowerCase().startsWith(request.query.query.toLowerCase()) 
 				|| patient.lastname.toLowerCase().startsWith(request.query.query.toLowerCase()) 
-				|| patient.age.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
+				|| patient.age.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
+				|| patient.size.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
+				|| patient.weight.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
 			var patientsFiltered = patients.filter(filterPatientOnName);
 			utils.httpResponse(response,200,'Patients successfully found',patientsFiltered)

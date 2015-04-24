@@ -192,13 +192,6 @@ app.get('/patient/search', function(request, response) {
 	patient.patientSearch(request,response);
 })
 
-/**
-* Get patients that have matched some criteria
-*/
-app.get('/patient/name/overview', function(request, response) {
-	patient.patientGetNames(request,response);
-})
-
 //---------------------------------------------
 //------------------- PUT ---------------------
 //---------------------------------------------
