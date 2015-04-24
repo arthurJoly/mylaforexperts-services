@@ -46,8 +46,7 @@ module.exports.patientSearch = function(request,response) {
 	Patient.find({},'-__v -results',function(err, patients){
 		if (err){
 			utils.httpResponse(response,404,err)
-		}	
-		else{
+		}else{
 			if (typeof String.prototype.startsWith != 'function') {
 				String.prototype.startsWith = function (str){
 					return this.slice(0, str.length) == str;
@@ -55,7 +54,9 @@ module.exports.patientSearch = function(request,response) {
 			}
 			
 			function filterPatientOnName(patient){
-				return (patient.firstname.toLowerCase().startsWith(request.query.name.toLowerCase()) || patient.lastname.toLowerCase().startsWith(request.query.name.toLowerCase));				
+				return (patient.firstname.toLowerCase().startsWith(request.query.query.toLowerCase()) 
+				|| patient.lastname.toLowerCase().startsWith(request.query.query.toLowerCase()) 
+				|| patient.age.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
 			var patientsFiltered = patients.filter(filterPatientOnName);
 			utils.httpResponse(response,200,'Patients successfully found',patientsFiltered)
