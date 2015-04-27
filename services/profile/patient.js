@@ -53,14 +53,15 @@ module.exports.patientSearch = function(request,response) {
 		if (err){
 			utils.httpResponse(response,404,err)
 		}else{
-			function filterPatientOnName(patient){
+			function filterPatient(patient){
 				return (patient.firstname.toLowerCase().startsWith(request.query.query.toLowerCase()) 
 				|| patient.lastname.toLowerCase().startsWith(request.query.query.toLowerCase()) 
 				|| patient.age.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
 				|| patient.size.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
-				|| patient.weight.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
+				|| patient.weight.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
+				|| patient._id.toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
-			var patientsFiltered = patients.filter(filterPatientOnName);
+			var patientsFiltered = patients.filter(filterPatient);
 			utils.httpResponse(response,200,'Patients successfully found',patientsFiltered)
 		}
 	});
