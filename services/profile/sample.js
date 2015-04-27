@@ -78,25 +78,25 @@ module.exports.sampleSearch = function(request,response) {
 			return this.slice(0, str.length) == str;
 		};
 	}
-	Sample.find({$or:[{specimenType : request.query.specimenType},{environmentType : request.query.environmentType}]},'-__v -patient',function(err, samples){
+	/*Sample.find({$or:[{specimenType : request.query.specimenType},{environmentType : request.query.environmentType}]},'-__v -patient',function(err, samples){
 		if (err){
 			utils.httpResponse(response,404,err)
 		}else{
 			utils.httpResponse(response,200,'Samples successfully found',samples)
 		}
-	});
+	});*/
 	
-	/*Sample.find({},'-__v -patient',function(err, samples){
+	Sample.find({},'-__v -patient',function(err, samples){
 		if (err){
 			utils.httpResponse(response,404,err)
 		}else{
 			function filterSample(sample){
-				return (sample.specimenType == request.query.specimenType
-				|| sample.environmentType == request.query.environmentType
+				return (sample.specimenType == mongoose.Types.Number(request.query.specimenType)
+				|| sample.environmentType == mongoose.Types.Number(request.query.environmentType)
 				|| sample._id.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
 			var samplesFiltered = patients.filter(filterSample);
 			utils.httpResponse(response,200,'Samples successfully found',samplesFiltered)
 		}
-	});*/
+	});
 }
