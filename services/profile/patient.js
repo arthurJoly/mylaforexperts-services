@@ -58,7 +58,8 @@ module.exports.patientSearch = function(request,response) {
 				|| patient.lastname.toLowerCase().startsWith(request.query.query.toLowerCase()) 
 				|| patient.age.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
 				|| patient.size.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
-				|| patient.weight.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
+				|| patient.weight.toString().toLowerCase().startsWith(request.query.query.toLowerCase())
+				|| patient._id.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
 			var patientsFiltered = patients.filter(filterPatient);
 			utils.httpResponse(response,200,'Patients successfully found',patientsFiltered)
