@@ -78,15 +78,15 @@ module.exports.sampleSearch = function(request,response) {
 			return this.slice(0, str.length) == str;
 		};
 	}
-	/*Sample.find({$or:[{specimenType : request.query.specimenType},{environmentType : request.query.environmentType}]},'-__v -patient',function(err, samples){
+	Sample.find({$or:[{specimenType : request.query.specimenType},{environmentType : request.query.environmentType}]},'-__v -patient',function(err, samples){
 		if (err){
 			utils.httpResponse(response,404,err)
 		}else{
 			utils.httpResponse(response,200,'Samples successfully found',samples)
 		}
-	});*/
+	});
 	
-	Sample.find({},'-__v -patient',function(err, samples){
+	/*Sample.find({},'-__v -patient',function(err, samples){
 		if (err){
 			utils.httpResponse(response,404,err)
 		}else{
@@ -98,5 +98,5 @@ module.exports.sampleSearch = function(request,response) {
 			var samplesFiltered = patients.filter(filterSample);
 			utils.httpResponse(response,200,'Samples successfully found',samplesFiltered)
 		}
-	});
+	});*/
 }
