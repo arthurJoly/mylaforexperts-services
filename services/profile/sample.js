@@ -91,8 +91,8 @@ module.exports.sampleSearch = function(request,response) {
 			utils.httpResponse(response,404,err)
 		}else{
 			function filterSample(sample){
-				return (sample.specimenType == mongoose.Types.Number(request.query.specimenType)
-				|| sample.environmentType == mongoose.Types.Number(request.query.environmentType)
+				return (sample.specimenType == request.query.specimenType
+				|| sample.environmentType == request.query.environmentType
 				|| sample._id.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
 			var samplesFiltered = samples.filter(filterSample);
