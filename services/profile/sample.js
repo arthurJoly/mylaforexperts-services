@@ -84,8 +84,8 @@ module.exports.sampleSearch = function(request,response) {
 			utils.httpResponse(response,404,err)
 		}else{
 			function filterSample(sample){
-				return (sample.specimenType.equals(request.query.specimenType)
-				|| sample.environmentType.equals(request.query.environmentType)
+				return (sample.specimenType.toString() == request.query.specimenType
+				|| sample.environmentType.toString() == request.query.environmentType
 				|| sample._id.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
 			var samplesFiltered = samples.filter(filterSample);
