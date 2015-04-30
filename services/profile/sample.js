@@ -84,9 +84,9 @@ module.exports.sampleSearch = function(request,response) {
 			utils.httpResponse(response,404,err)
 		}else{
 			function filterSample(sample){
-				return ((sample.specimenType == request.query.specimenType && request.query.environmentType === 'undefined' && request.query.query === 'undefined')
-				|| (sample.environmentType == request.query.environmentType && request.query.specimenType === 'undefined' && request.query.query === 'undefined')
-				|| (sample._id.toString().toLowerCase().startsWith(request.query.query.toLowerCase())) && request.query.environmentType === 'undefined' && request.query.specimenType === 'undefined');				
+				return (sample.specimenType == request.query.specimenType
+				|| sample.environmentType == request.query.environmentType
+				|| sample._id.toString().toLowerCase().startsWith(request.query.query.toLowerCase()));				
 			}
 			var samplesFiltered = samples.filter(filterSample);
 			utils.httpResponse(response,200,'Samples successfully found',samplesFiltered)
