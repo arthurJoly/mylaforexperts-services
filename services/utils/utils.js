@@ -38,9 +38,9 @@ function httpResponse(ajaxCallback, response,code,description,content) {
 		}			
 	} else {
 		if(content === undefined){
-			response.write("callback(\'" + JSON.stringify({description : description}) + "\')")
+			response.write("callback(" + JSON.stringify({description : description}) + ")")
 		}else{
-			response.write("callback(\'" + JSON.stringify({description : description, content : content})+ "\')")
+			response.write("callback(" + JSON.stringify({description : description, content : content})+ ")")
 		}
 	}
 		
