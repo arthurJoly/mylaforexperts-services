@@ -19,9 +19,9 @@ module.exports.createPetriDishSample = function(request,response) {
 
 	petriDishSample.save(function(err) {
 		if (err)
-			utils.httpResponse(response,500,err)
+			utils.httpResponse(false,response,500,err)
 		else
-			utils.httpResponse(response,200,'Sample successfully created')
+			utils.httpResponse(false,response,200,'Sample successfully created')
 	});
 }
 
@@ -35,18 +35,18 @@ module.exports.createValidationSample = function(request,response) {
 
 	validationSample.save(function(err) {
 		if (err)
-			utils.httpResponse(response,500,err)
+			utils.httpResponse(false,response,500,err)
 		else
-			utils.httpResponse(response,200,'Sample successfully created')
+			utils.httpResponse(false,response,200,'Sample successfully created')
 	});
 }
 
 module.exports.sampleOverview = function(request,response) {
 	 Sample.find({},'-isolates -image -result -patient -__v',function(err, samples){
 		if (err)
-			utils.httpResponse(response,404,err)
+			utils.httpResponse(false,response,404,err)
 		else
-			utils.httpResponse(response,200,'Samples successfully found',samples)
+			utils.httpResponse(false,response,200,'Samples successfully found',samples)
 	});
 }
 
@@ -55,9 +55,9 @@ module.exports.specificPetriDishSample = function(request,response) {
 		.populate('patient')
 		.exec(function(err,obj){
 			if (obj)
-				utils.httpResponse(response,200,'Sample successfully found',obj)
+				utils.httpResponse(false,response,200,'Sample successfully found',obj)
 			else
-				utils.httpResponse(response,404,'Sample not found')
+				utils.httpResponse(false,response,404,'Sample not found')
 		});
 }
 
@@ -66,9 +66,9 @@ module.exports.specificValidationSample = function(request,response) {
 		.populate('patient')
 		.exec(function(err,obj){
 			if (obj)
-				utils.httpResponse(response,200,'Sample successfully found',obj)
+				utils.httpResponse(false,response,200,'Sample successfully found',obj)
 			else
-				utils.httpResponse(response,404,'Sample not found')
+				utils.httpResponse(false,response,404,'Sample not found')
 		});
 }
 
@@ -81,7 +81,7 @@ module.exports.sampleSearch = function(request,response) {
 
 	Sample.find({},'-__v -patient',function(err, samples){
 		if (err){
-			utils.httpResponse(response,404,err)
+			utils.httpResponse(false,response,404,err)
 		}else{
 			function filterSample(sample){
 				return (sample.specimenType.toString() == request.query.specimenType
@@ -89,7 +89,7 @@ module.exports.sampleSearch = function(request,response) {
 				|| (sample._id.toString().toLowerCase().startsWith(request.query.query.toLowerCase()) && typeof request.query.query !== 'undefined'))				
 			}
 			var samplesFiltered = samples.filter(filterSample);
-			utils.httpResponse(response,200,'Samples successfully found',samplesFiltered)
+			utils.httpResponse(false,response,200,'Samples successfully found',samplesFiltered)
 		}
 	});
 }

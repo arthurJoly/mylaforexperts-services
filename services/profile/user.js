@@ -11,7 +11,7 @@ module.exports.registerUser = function(request,response) {
 	
 	User.find({username : user.username}, function(err, obj) {
 		if (obj.length > 0) {
-			utils.httpResponse(response,403,'User already exists')
+			utils.httpResponse(false,response,403,'User already exists')
 		}else {
 			var tmpUser = new User ({
 				username : user.username,
@@ -20,7 +20,7 @@ module.exports.registerUser = function(request,response) {
 			});
 			tmpUser.save(function (err) {
 				if (err)
-					utils.httpResponse(response,500,err)
+					utils.httpResponse(false,response,500,err)
 				else
 					loginUser(tmpUser,request,response)
 			});
@@ -42,15 +42,15 @@ function loginUser(user,request,response) {
 			obj.token = uuid.v4()
 			request.session.userToken = obj.token;
 			obj.save()
-			utils.httpResponse(response,200,'User successfully (created and) logged in')
+			utils.httpResponse(false,response,200,'User successfully (created and) logged in')
 		}else {
-			utils.httpResponse(response,500,'Impossible to log in the user, user not found')
+			utils.httpResponse(false,response,500,'Impossible to log in the user, user not found')
 		}
 	});
 }
 
 module.exports.logoutUser = function(request,response) {
     request.session.destroy(function(){
-        utils.httpResponse(response,200,'Successfully logout')
+        utils.httpResponse(false,response,200,'Successfully logout')
     });
 }

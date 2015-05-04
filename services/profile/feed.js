@@ -35,7 +35,7 @@ module.exports.createQuestion = function(request,response) {
 
 	question.save(function(err) {
 		if (err){
-			utils.httpResponse(response,500,err)
+			utils.httpResponse(false, response,500,err)
 		}
 		else{
 			var hashmapMessage = new hashMap.HashMap()
@@ -43,7 +43,7 @@ module.exports.createQuestion = function(request,response) {
 			hashmapMessage.set(NOTIFICATION_OBJECT_ID,question._id)
 			
 			notification.sendNotification(hashmapMessage, COLLAPSE_KEY_QUESTION)
-			utils.httpResponse(response,200,'Question successfully created')
+			utils.httpResponse(false, response,200,'Question successfully created')
 		}
 	});
 }
@@ -57,7 +57,7 @@ module.exports.createValidation = function(request,response) {
 
 	validation.save(function(err) {
 		if (err){
-			utils.httpResponse(response,500,err)
+			utils.httpResponse(false,response,500,err)
 		}
 		else{	
 			Validation.findById(mongoose.Types.ObjectId(validation._id))
@@ -71,9 +71,9 @@ module.exports.createValidation = function(request,response) {
 					hashmapMessage.set(NOTIFICATION_OBJECT_ID,obj._id)
 					
 					notification.sendNotification(hashmapMessage, COLLAPSE_KEY_VALIDATION)
-					utils.httpResponse(response,200,'Validation successfully created')
+					utils.httpResponse(false,response,200,'Validation successfully created')
 				} else {
-					utils.httpResponse(response,500,err)
+					utils.httpResponse(false,response,500,err)
 				}
 			})					
 		}
@@ -85,12 +85,21 @@ module.exports.feedOverview = function(request,response) {
 			.sort({date: 'ascending'})
 			.populate('sample', 'specimenType environmentType result')
 			.exec(function(err, questions){
-				if (err){
-					utils.httpResponse(response,404,err)
-				}		
-				else{
-					utils.httpResponse(response,200,'Feeds successfully found',questions)
-				}
+				if(typeof request.query.callback === 'undefined'){
+					if (err){
+						utils.httpResponse(false,response,404,err)
+					}		
+					else{
+						utils.httpResponse(false,response,200,'Feeds successfully found',questions)
+					}
+				}else{
+					if (err){
+						utils.httpResponse(false,response,404,err)
+					}		
+					else{
+						utils.httpResponse(false,response,200,'Feeds successfully found',questions)
+					}
+				}								
 			})
 }
 
@@ -100,10 +109,10 @@ module.exports.questionOverview = function(request,response) {
 			.populate('sample', 'specimenType environmentType')
 			.exec(function(err, questions){
 				if (err){
-					utils.httpResponse(response,404,err)
+					utils.httpResponse(false,response,404,err)
 				}		
 				else{
-					utils.httpResponse(response,200,'Questions successfully found',questions)
+					utils.httpResponse(false,response,200,'Questions successfully found',questions)
 				}
 			})
 }
@@ -114,10 +123,10 @@ module.exports.validationOverview = function(request,response) {
 			.populate('sample', 'specimenType environmentType result')	
 			.exec(function(err, questions){
 				if (err){
-					utils.httpResponse(response,404,err)
+					utils.httpResponse(false,response,404,err)
 				}		
 				else{
-					utils.httpResponse(response,200,'Questions successfully found',questions)
+					utils.httpResponse(false,response,200,'Questions successfully found',questions)
 				}
 			})
 }
@@ -128,10 +137,10 @@ module.exports.questionHistory = function(request,response) {
 			.populate('sample', 'specimenType environmentType')
 			.exec(function(err, questions){
 				if (err){
-					utils.httpResponse(response,404,err)
+					utils.httpResponse(false,response,404,err)
 				}		
 				else{
-					utils.httpResponse(response,200,'Questions successfully found',questions)
+					utils.httpResponse(false,response,200,'Questions successfully found',questions)
 				}
 			})
 }
@@ -143,7 +152,7 @@ module.exports.questionHistorySearch = function(request,response) {
 			.populate('sample.patient')
 			.exec(function(err, questions){
 				if (err){
-					utils.httpResponse(response,404,err)
+					utils.httpResponse(false,response,404,err)
 				} else{	
 					//Call asyn each in order to wait for the population to be complete before returning the questions to the client
 					async.each(questions, function(aQuestion, callback){
@@ -168,7 +177,7 @@ module.exports.questionHistorySearch = function(request,response) {
 						
 						var questionsFiltered = questionsFilteredOnSample.filter(filterQuestionOnPatient);
 						
-						utils.httpResponse(response,200,'Questions successfully found',questionsFiltered)
+						utils.httpResponse(false,response,200,'Questions successfully found',questionsFiltered)
 					})
 					
 				}
@@ -181,13 +190,13 @@ module.exports.specificQuestion = function(request,response) {
 		.populate('comments.user', '-password -token')
 		.exec(function(err, obj){
 			if(err){
-				utils.httpResponse(response,404,'Question not found')
+				utils.httpResponse(false,response,404,'Question not found')
 			}else{
 				obj.sample.populate('patient', function(err){
 					if(err){
-						utils.httpResponse(response,500,'Internal error')
+						utils.httpResponse(false,response,500,'Internal error')
 					}else{
-						utils.httpResponse(response,200,'Question successfully found',obj)
+						utils.httpResponse(false,response,200,'Question successfully found',obj)
 					}
 				})
 			}				
@@ -200,14 +209,14 @@ module.exports.specificValidation = function(request,response) {
 		.populate('comments.user', '-password -token')	
 		.exec(function(err, obj){
 			if(err){
-				utils.httpResponse(response,404,'Validation not found')
+				utils.httpResponse(false,response,404,'Validation not found')
 			}
 			else{
 				obj.sample.populate('patient', function(err){
 					if(err){
-						utils.httpResponse(response,500,'Internal error')
+						utils.httpResponse(false,response,500,'Internal error')
 					}else{
-						utils.httpResponse(response,200,'Validation successfully found',obj)
+						utils.httpResponse(false,response,200,'Validation successfully found',obj)
 					}
 				})
 			}				
@@ -217,7 +226,7 @@ module.exports.specificValidation = function(request,response) {
 module.exports.answerQuestion = function(request,response) {
 	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
 		if(err){
-			utils.httpResponse(response,500,'Could not modify question')
+			utils.httpResponse(false,response,500,'Could not modify question')
 		} else {
 			if (question) {
 				question.answered = true;
@@ -232,9 +241,9 @@ module.exports.answerQuestion = function(request,response) {
 				})
 							
 				question.save();
-				utils.httpResponse(response, 200, 'Question successfully modified')
+				utils.httpResponse(false, response, 200, 'Question successfully modified')
 			} else{
-				utils.httpResponse(response, 404, 'Question not found')
+				utils.httpResponse( false, response, 404, 'Question not found')
 			}
 		}		
 	});
@@ -243,7 +252,7 @@ module.exports.answerQuestion = function(request,response) {
 module.exports.answerValidation = function(request,response) {
 	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.validationId)}, function (err, validation) {
 		if(err){
-			utils.httpResponse(response,500,'Could not modify validation')
+			utils.httpResponse(false, response,500,'Could not modify validation')
 		} else {
 			if (validation) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
@@ -264,7 +273,7 @@ module.exports.answerValidation = function(request,response) {
 						if(validation.validateState){
 							validation.populate('sample', function(err){
 								if(err){
-									utils.httpResponse(response,500,'Internal error')
+									utils.httpResponse(false, response,500,'Internal error')
 								}else{
 									Patient.findById(validation.sample.patient,function(err, obj){
 										obj.results.push({
@@ -274,18 +283,18 @@ module.exports.answerValidation = function(request,response) {
 										})
 										obj.save();
 									});
-									utils.httpResponse(response,200,'Validation successfully answered',validation)
+									utils.httpResponse(false, response,200,'Validation successfully answered',validation)
 								}
 							})
 						}else{
-							utils.httpResponse(response,200,'Validation successfully answered',validation)
+							utils.httpResponse(false, response,200,'Validation successfully answered',validation)
 						}																
 					} else {
-						utils.httpResponse(response,500,err)
+						utils.httpResponse(false, response,500,err)
 					}
 				});				
 			} else{
-				utils.httpResponse(response, 404, 'Validation not found')
+				utils.httpResponse(false, response, 404, 'Validation not found')
 			}
 		}		
 	});
@@ -294,7 +303,7 @@ module.exports.answerValidation = function(request,response) {
 module.exports.commentQuestion = function(request,response) {
 	Question.findOne({_id: mongoose.Types.ObjectId(request.body.questionId)}, function (err, question) {
 		if(err){
-			utils.httpResponse(response,500,'Could not add comment')
+			utils.httpResponse(false, response,500,'Could not add comment')
 		}else {
 			if (question) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
@@ -308,13 +317,13 @@ module.exports.commentQuestion = function(request,response) {
 						});
 						question.save();
 						refreshComment(question._id);						
-						utils.httpResponse(response,200,'Comment successfully added')
+						utils.httpResponse(false, response,200,'Comment successfully added')
 					} else {
-						utils.httpResponse(response,500,err)
+						utils.httpResponse(false,response,500,err)
 					}
 				});				
 			} else{
-				utils.httpResponse(response, 404, 'Question not found')
+				utils.httpResponse(false, response, 404, 'Question not found')
 			}
 		}		
 	});
@@ -323,7 +332,7 @@ module.exports.commentQuestion = function(request,response) {
 module.exports.commentValidation = function(request,response) {
 	Validation.findOne({_id: mongoose.Types.ObjectId(request.body.validationId)}, function (err, validation) {
 		if(err){
-			utils.httpResponse(response,500,'Could not add comment')
+			utils.httpResponse(false, response,500,'Could not add comment')
 		} else {
 			if (validation) {
 				User.findOne({token : request.session.userToken}, function(err,owner){
@@ -337,13 +346,13 @@ module.exports.commentValidation = function(request,response) {
 						});
 						validation.save();
 						refreshComment(validation._id);
-						utils.httpResponse(response, 200, 'Comment successfully added')
+						utils.httpResponse(false, response, 200, 'Comment successfully added')
 					} else {
-						utils.httpResponse(response,500,err)
+						utils.httpResponse(false, response,500,err)
 					}
 				});				
 			} else{
-				utils.httpResponse(response, 404, 'Validation not found')
+				utils.httpResponse(false, response, 404, 'Validation not found')
 			}
 		}		
 	});
@@ -354,9 +363,9 @@ module.exports.getQuestionComment = function(request,response) {
 		.populate('comments.user', '-password -token')
 		.exec(function(err, obj){
 			if(err){
-				utils.httpResponse(response,404,'Question not found')
+				utils.httpResponse(false, response,404,'Question not found')
 			}else{
-				utils.httpResponse(response,200,'Question comments successfully found',obj.comments)
+				utils.httpResponse(false, response,200,'Question comments successfully found',obj.comments)
 			}				
 		})
 }

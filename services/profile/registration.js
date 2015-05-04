@@ -12,8 +12,8 @@ module.exports.createRegistration = function(request,response) {
 
 	registration.save(function(err) {
 		if (err)
-			utils.httpResponse(response,500,err)
+			utils.httpResponse(false,response,500,err)
 		else
-			utils.httpResponse(response,200,'Registration successfully created')
+			utils.httpResponse(false,response,200,'Registration successfully created')
 	});
 }

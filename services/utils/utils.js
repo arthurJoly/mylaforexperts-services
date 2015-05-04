@@ -6,8 +6,9 @@ var User = require(__base + 'services/database/model.js').User
 * @param response
 * @param code Http status code
 * @param description Description of the response
+* @param ajaxCallback boolean that indicates if the services is call from jquery or not, default value is false
 */
-function httpResponse(response,code,description,content) {
+function httpResponse(ajaxCallback, response,code,description,content) {
 	var s
 	
 	if(/^1\d+/.test(code)) {
@@ -29,10 +30,19 @@ function httpResponse(response,code,description,content) {
 	
 	response.writeHead(code, { 'Content-Type': 'application/json' });
 	
-	if(content === undefined)
-		response.write(JSON.stringify({description : description}))
-	else
-		response.write(JSON.stringify({description : description, content : content}))
+	if(!ajaxCallback){
+		if(content === undefined){
+			response.write(JSON.stringify({description : description}))
+		}else{
+			response.write(JSON.stringify({description : description, content : content}))
+		}			
+	} else {
+		if(content === undefined){
+			response.write("callback(" + JSON.stringify({description : description}) + ")")
+		}else{
+			response.write("callback(" + JSON.stringify({description : description, content : content})+ ")")
+		}
+	}
 		
 	response.end()
 }
