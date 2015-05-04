@@ -258,8 +258,8 @@ module.exports.answerValidation = function(request,response) {
 							user : owner._id,
 							message : request.body.message	
 						});
-						refreshComment(validation._id);	
 						validation.save();
+						refreshComment(validation._id);	
 						
 						if(validation.validateState){
 							validation.populate('sample', function(err){
