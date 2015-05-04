@@ -366,9 +366,9 @@ module.exports.getValidationComment = function(request,response) {
 		.populate('comments.user', '-password -token')
 		.exec(function(err, obj){
 			if(err){
-				utils.httpResponse(response,404,'Validation not found')
+				utils.httpResponse(false,response,404,'Validation not found')
 			}else{
-				utils.httpResponse(response,200,'Validation comments successfully found',obj.comments)			
+				utils.httpResponse(false,response,200,'Validation comments successfully found',obj.comments)			
 			}				
 		})
 }
