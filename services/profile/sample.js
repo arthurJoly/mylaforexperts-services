@@ -43,10 +43,19 @@ module.exports.createValidationSample = function(request,response) {
 
 module.exports.sampleOverview = function(request,response) {
 	 Sample.find({},'-isolates -image -result -patient -__v',function(err, samples){
-		if (err)
-			utils.httpResponse(false,response,404,err)
-		else
-			utils.httpResponse(false,response,200,'Samples successfully found',samples)
+		if(typeof request.query.callback === 'undefined'){
+			if (err){
+				utils.httpResponse(false,response,404,err)
+			}else{
+				utils.httpResponse(false,response,200,'Samples successfully found',samples)
+			}
+		}else{
+			if (err){
+				utils.httpResponse(true,response,404,err)
+			}else{
+				utils.httpResponse(true,response,200,'Samples successfully found',samples)
+			}
+		}
 	});
 }
 
