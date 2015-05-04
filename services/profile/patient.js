@@ -17,19 +17,10 @@ module.exports.createPatient = function(request,response) {
 	});
 
 	patient.save(function(err) {
-		if(typeof request.query.callback === 'undefined'){
-			if (err){
-				utils.httpResponse(false,response,500,err)
-			}else{
-				utils.httpResponse(false,response,200,'Patient successfully created')
-			}
-		}
-		else{
-			if (err){
-				utils.httpResponse(true,response,500,err)
-			}else{
-				utils.httpResponse(true,response,200,'Patient successfully created')
-			}
+		if (err){
+			utils.httpResponse(false,response,500,err)
+		}else{
+			utils.httpResponse(false,response,200,'Patient successfully created')
 		}					
 	});
 }
