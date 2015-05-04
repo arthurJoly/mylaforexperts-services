@@ -26,10 +26,19 @@ module.exports.createPatient = function(request,response) {
 
 module.exports.patientOverview = function(request,response) {
 	Patient.find({},'-__v -results',function(err, patients){
-		if (err)
-			utils.httpResponse(false,response,404,err)
-		else
-			utils.httpResponse(false,response,200,'Patients successfully found',patients)
+		if(typeof request.query.callback === 'undefined'){
+			if (err){
+				utils.httpResponse(false,response,404,err)
+			}else{
+				utils.httpResponse(false,response,200,'Patients successfully found',patients)
+			}
+		}else{
+			if (err){
+				utils.httpResponse(true,response,404,err)
+			}else{
+				utils.httpResponse(true,response,200,'Patients successfully found',patients)
+			}
+		}					
 	});
 }
 

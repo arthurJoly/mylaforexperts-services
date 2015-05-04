@@ -84,21 +84,12 @@ module.exports.feedOverview = function(request,response) {
 	Feed.find({ $or:[{ $and:[{answered : false},{__t : "Question"}]}, { $and:[{$or:[{validateState : false},{answered : false}]},{__t : "Validation"}]} ]},'-__v -comments')
 			.sort({date: 'ascending'})
 			.populate('sample', 'specimenType environmentType result')
-			.exec(function(err, questions){
-				if(typeof request.query.callback === 'undefined'){
-					if (err){
-						utils.httpResponse(false,response,404,err)
-					}		
-					else{
-						utils.httpResponse(false,response,200,'Feeds successfully found',questions)
-					}
-				}else{
-					if (err){
-						utils.httpResponse(false,response,404,err)
-					}		
-					else{
-						utils.httpResponse(false,response,200,'Feeds successfully found',questions)
-					}
+			.exec(function(err, questions){				
+				if (err){
+					utils.httpResponse(false,response,404,err)
+				}		
+				else{
+					utils.httpResponse(false,response,200,'Feeds successfully found',questions)
 				}								
 			})
 }
