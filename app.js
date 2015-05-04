@@ -18,6 +18,7 @@ var express = require('express');
 var bodyParser = require('body-parser')
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var cors  = require('cors');
 
 var app = express();
 
@@ -37,7 +38,8 @@ app.use(express.static(__dirname + '/public'))
 		secret: 'keyboard cat',
 		resave: false,
 		saveUninitialized: true
-	}));
+	}))
+	.use(cors());
 	
 app.listen(app.get('port'), function() {
 	console.log("Node app is running at localhost:" + app.get('port'))

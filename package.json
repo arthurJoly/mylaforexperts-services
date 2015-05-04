@@ -20,7 +20,8 @@
 		"async": "0.9.0",
 		"ws": "0.4.x",
 		"owl-deepcopy": "~0.0.1",
-		"socket.io" : "~1.3.5"
+		"socket.io" : "~1.3.5",
+		"cors" : "2.6.0"
 	},
 	"engines": {
 		"node": "0.10.x"
