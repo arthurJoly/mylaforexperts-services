@@ -28,7 +28,7 @@ function httpResponse(ajaxCallback, response,code,description,content) {
 		log.error(s + description)
 	}
 	
-	response.writeHead(code, { 'Content-Type': 'application/json' });
+	response.writeHead(code, { 'Content-Type': 'application/json',  'Access-Control-Allow-Origin': '*'});
 	
 	if(!ajaxCallback){
 		if(content === undefined){
