@@ -374,11 +374,11 @@ module.exports.getValidationComment = function(request,response) {
 }
 
 function refreshComment(id){
-	var hashmapMessage = new hashMap.HashMap()
-	hashmapMessage.set(NOTIFICATION_OBJECT_ID,id)
-	hashmapMessage.set(NOTIFICATION_COMMENT,id)
+	var hashmapMessage = new hashMap.HashMap();
+	hashmapMessage.set(NOTIFICATION_OBJECT_ID,id);
+	hashmapMessage.set(NOTIFICATION_COMMENT,id);
 	
-	notification.sendNotification(hashmapMessage, COLLAPSE_KEY_COMMENT)
+	notification.sendNotification(hashmapMessage, COLLAPSE_KEY_COMMENT);
 }
 
 
