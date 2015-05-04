@@ -28,7 +28,11 @@ function httpResponse(ajaxCallback, response,code,description,content) {
 		log.error(s + description)
 	}
 	
-	response.writeHead(code, { 'Content-Type': 'application/json', 'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS', 'Access-Control-Allow-Origin': '*'});
+	response.writeHead(code, { 'Content-Type': 'application/json', 
+						'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS', 
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Max-Age':'1000',
+						'Access-Control-Allow-Headers' : 'Content-Type, Authorization, X-Requested-With'});
 	
 	if(!ajaxCallback){
 		if(content === undefined){
