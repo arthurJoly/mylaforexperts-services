@@ -45,10 +45,12 @@ module.exports.patientOverview = function(request,response) {
 
 module.exports.specificPatient = function(request,response) {
 	Patient.findById(mongoose.Types.ObjectId(request.query.patientId),function(err, obj){
-		if (obj)
+		if (obj){
 			utils.httpResponse(false,response,200,'Patient successfully found',obj)
-		else
+
+		}else{
 			utils.httpResponse(false,response,404,'Patient not found')
+		}
 	});
 }
 
