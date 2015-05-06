@@ -26,6 +26,13 @@ app.post('/user/login', function(request, response) {
 	user.loginUser(request,response);
 })
 
+/**
+* open a new session for the user when he is already logged
+*/
+app.post('/user/openSession', function(request, response) {
+	user.openSession(request,response);
+})
+
 //------------ FEEDS ---------------
 /**
 * Create a question

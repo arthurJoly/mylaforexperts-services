@@ -49,6 +49,19 @@ function loginUser(user,request,response) {
 	});
 }
 
+module.exports.openSession = function(request,response) {
+	User.findOne({username : request.body.username}, function(err, obj) {
+		if (obj) {
+			obj.token = uuid.v4()
+			request.session.userToken = obj.token;
+			obj.save()
+			utils.httpResponse(false,response,200,'New session opened')
+		}else {
+			utils.httpResponse(false,response,500,'Impossible to open a new session for this user')
+		}
+	});
+}
+
 module.exports.logoutUser = function(request,response) {
     request.session.destroy(function(){
         utils.httpResponse(false,response,200,'Successfully logout')
